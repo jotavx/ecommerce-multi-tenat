@@ -1,0 +1,229 @@
+<!-- <h2 mat-dialog-title>
+  {{ data.choice ? 'Editar Opción' : 'Nueva Opción' }}
+</h2>
+
+<mat-dialog-content class="flex flex-col gap-4">
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Nombre</mat-label>
+    <input matInput [(ngModel)]="name" required>
+
+
+  </mat-form-field>
+
+
+  <div *ngIf="data.choice">
+
+    <div class="my-5 w-full flex items-baseline">
+      <mat-slide-toggle [(ngModel)]="seleccionMultiple" *ngIf="data.choice">
+        Permitir selección múltiple
+      </mat-slide-toggle>
+    </div>
+
+    <div class="my-5 w-full flex items-baseline">
+      <mat-slide-toggle [(ngModel)]="obligatorio" color="warn">
+        Opción obligatoria
+      </mat-slide-toggle>
+    </div>
+
+    <div *ngIf="seleccionMultiple && hasCounterOption" class="mt-2">
+      <mat-form-field appearance="fill" class="w-48">
+        <mat-label>Cantidad máxima total</mat-label>
+        <input matInput type="number" [(ngModel)]="maxQuantity" min="1" />
+      </mat-form-field>
+      <p class="text-sm text-gray-500 mt-1">
+        Máximo total de ítems seleccionables con contador. Si el contador se deja sin valor no habrá un limite máximo
+      </p>
+    </div>
+
+
+
+
+    <h3 class="text-lg font-semibold mb-3">Opciones hijas</h3>
+
+    <div *ngFor="let opt of options" class="flex items-center gap-3 mb-4">
+
+      <mat-form-field appearance="fill" class="flex-1">
+        <mat-label>Nombre opción</mat-label>
+        <input matInput [(ngModel)]="opt.name" required />
+      </mat-form-field>
+
+
+      <mat-form-field appearance="fill" class="w-32">
+        <mat-label>Precio</mat-label>
+        <input matInput type="number" [(ngModel)]="opt.price" required />
+      </mat-form-field>
+
+
+      <div class="w-32 flex items-baseline">
+        <mat-slide-toggle [(ngModel)]="opt.stock" color="primary">
+          Sin Stock
+        </mat-slide-toggle>
+      </div>
+
+      <div class="w-32">
+        <mat-slide-toggle [(ngModel)]="opt.counter" color="accent">
+          Contador
+        </mat-slide-toggle>
+      </div>
+
+
+      <div class="flex gap-1 mb-2">
+        <button mat-icon-button color="primary" (click)="updateOption(opt)" matTooltip="Guardar opción">
+
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />
+          </svg>
+        </button>
+        <button mat-icon-button color="warn" (click)="deleteOption(opt.id)" matTooltip="Eliminar opción">
+
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+
+
+    <div class="flex items-end gap-3 mt-6">
+      <mat-form-field appearance="fill" class="flex-1">
+        <mat-label>Nueva opción</mat-label>
+        <input matInput [(ngModel)]="newOptionName">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-32">
+        <mat-label>Precio</mat-label>
+        <input matInput type="number" [(ngModel)]="newOptionPrice">
+        <span matPrefix>&nbsp;</span>
+      </mat-form-field>
+
+      <button mat-icon-button color="primary" (click)="addOption()" matTooltip="Agregar opción" class="mb-2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="px-6 py-4">
+  <button mat-stroked-button mat-dialog-close>Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()">Guardar</button>
+</mat-dialog-actions> -->
+
+<h2 mat-dialog-title>
+  {{ data.choice ? 'Editar Opción' : 'Nueva Opción' }}
+</h2>
+
+<mat-dialog-content class="flex flex-col gap-4">
+  <!-- Campos principales -->
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Nombre</mat-label>
+    <input matInput [ngModel]="name" (ngModelChange)="onFieldChange('name', $event)" name="nombre" required
+      #nombre="ngModel" maxlength="50">
+    <mat-error *ngIf="nombre.invalid && nombre.touched">El nombre es obligatorio</mat-error>
+  </mat-form-field>
+
+  <div *ngIf="data.choice">
+    <div class="my-5 w-full flex items-baseline">
+      <mat-slide-toggle [ngModel]="seleccionMultiple" (ngModelChange)="onFieldChange('seleccionMultiple', $event)">
+        Permitir selección múltiple
+      </mat-slide-toggle>
+    </div>
+
+    <div class="my-5 w-full flex items-baseline">
+      <mat-slide-toggle [ngModel]="obligatorio" (ngModelChange)="onFieldChange('obligatorio', $event)">
+        Opción obligatoria
+      </mat-slide-toggle>
+    </div>
+
+    <div class="my-5 w-full flex items-baseline">
+      <mat-slide-toggle [ngModel]="newOptionRequiredMax"
+        (ngModelChange)="onFieldChange('newOptionRequiredMax', $event)">
+        Requiere máximo
+      </mat-slide-toggle>
+    </div>
+
+    <!-- <div *ngIf="seleccionMultiple && hasCounterOption" class="mt-2"> -->
+    <mat-form-field appearance="fill" class="w-48">
+      <mat-label>Cantidad máxima total</mat-label>
+      <input matInput type="number" [ngModel]="maxQuantity" (ngModelChange)="onFieldChange('maxQuantity', $event)"
+        min="1" />
+    </mat-form-field>
+    <p class="text-sm text-gray-500 mt-1">
+      Máximo total de ítems seleccionables con contador. Si el contador se deja sin valor no habrá un limite máximo
+    </p>
+    <!-- </div> -->
+
+    <h3 class="text-lg font-semibold mb-3">Opciones hijas</h3>
+
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let opt of options">
+        <mat-expansion-panel-header>
+          {{ opt.name || 'Sin nombre' }}
+        </mat-expansion-panel-header>
+
+        <div class="flex flex-col gap-4">
+          <mat-form-field appearance="fill">
+            <mat-label>Nombre opción</mat-label>
+            <input matInput [ngModel]="opt.name" (ngModelChange)="onOptionChange(opt, 'name', $event)" required
+              maxlength="30" />
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Precio</mat-label>
+            <input matInput type="number" [ngModel]="opt.price" (ngModelChange)="onOptionChange(opt, 'price', $event)"
+              required />
+          </mat-form-field>
+
+          <mat-slide-toggle [ngModel]="opt.stock" (ngModelChange)="onOptionChange(opt, 'stock', $event)"
+            color="primary">
+            Sin Stock
+          </mat-slide-toggle>
+
+          <mat-slide-toggle *ngIf="seleccionMultiple" [ngModel]="opt.counter"
+            (ngModelChange)="onOptionChange(opt, 'counter', $event)" color="accent">
+            Contador
+          </mat-slide-toggle>
+
+          <div class="flex justify-end">
+            <button mat-icon-button color="warn" (click)="deleteOption(opt.id)" matTooltip="Eliminar opción">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <div class="flex flex-col sm:flex-row sm:items-center gap-3 mt-6">
+      <mat-form-field appearance="fill" class="flex-1">
+        <mat-label>Nueva opción</mat-label>
+        <input matInput [(ngModel)]="newOptionName" maxlength="30">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-32">
+        <mat-label>Precio</mat-label>
+        <input matInput type="number" [(ngModel)]="newOptionPrice">
+        <span matPrefix>&nbsp;</span>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="addOption()" matTooltip="Agregar opción" class="mb-2">
+        Crear opción
+      </button>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="px-6 py-4">
+  <button mat-stroked-button (click)="closeDialog()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="nombre.invalid">Guardar</button>
+</mat-dialog-actions>

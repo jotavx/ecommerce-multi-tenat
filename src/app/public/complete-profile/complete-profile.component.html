@@ -1,0 +1,212 @@
+<!-- <div class="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
+  <h1 class="text-2xl font-bold text-center mb-6">Completa tu perfil</h1>
+
+  <form [formGroup]="datosForm" (ngSubmit)="guardarDatos()" class="space-y-4">
+
+    <div class="space-y-4">
+      <h2 class="font-semibold text-lg border-b pb-2">Datos Personales</h2>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Nombre completo</mat-label>
+        <input matInput formControlName="nombre" required>
+        <mat-error *ngIf="datosForm.get('nombre')?.invalid">
+          El nombre es requerido (máx. 25 caracteres)
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Teléfono</mat-label>
+        <input matInput type="tel" formControlName="telefono">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Dirección</mat-label>
+        <input matInput formControlName="direccion">
+      </mat-form-field>
+    </div>
+
+
+    <div class="space-y-2">
+      <h2 class="font-semibold text-lg border-b pb-2">Tipo de cuenta</h2>
+
+      <mat-radio-group formControlName="role" class="flex flex-col space-y-2">
+
+        <mat-radio-button value="admin">Tengo un negocio</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
+    <div *ngIf="isAdminSelected" class="space-y-4 p-4 bg-gray-50 rounded-lg">
+      <h2 class="font-semibold text-lg border-b pb-2">Datos del Negocio</h2>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Nombre del negocio</mat-label>
+        <input matInput formControlName="nombre_negocio" required>
+        <mat-error *ngIf="datosForm.get('nombre_negocio')?.invalid">
+          El nombre del negocio es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Email del negocio</mat-label>
+        <input matInput type="email" formControlName="email_negocio" required>
+        <mat-error *ngIf="datosForm.get('email_negocio')?.invalid">
+          Email válido requerido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Teléfono del negocio</mat-label>
+        <input matInput type="tel" formControlName="telefono_negocio" required>
+        <mat-error *ngIf="datosForm.get('telefono_negocio')?.invalid">
+          Teléfono requerido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Descripción</mat-label>
+        <textarea matInput formControlName="descripcion_negocio" rows="3"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-label>Alias/Nombre corto</mat-label>
+        <input matInput formControlName="alias_negocio">
+      </mat-form-field>
+
+
+      <div *ngIf="datosForm.get('brand')?.value" class="p-3 bg-blue-50 rounded-md">
+        <p class="text-sm font-medium text-blue-800">Tu tienda pública estará disponible en:</p>
+        <a [href]="brandPreview" target="_blank" class="text-blue-600 break-all">
+          {{ brandPreview }}
+        </a>
+      </div>
+
+
+      <input type="hidden" formControlName="brand">
+    </div>
+
+    <button mat-raised-button color="primary" type="submit" class="w-full py-2"
+      [disabled]="datosForm.invalid || loading">
+      <span *ngIf="!loading">Completar Registro</span>
+    </button>
+  </form>
+</div> -->
+<div class="w-full bg-gradient-to-br from-gray-900 to-gray-800 dark:from-gray-900 dark:to-gray-800 p-6">
+  <div class="flex-1 flex justify-center items-center">
+    <img [src]="logoUrl" alt="Logo" class="h-12 w-auto" />
+    <div class="text-xl font-extrabold text-white text-center ">/PediloApp</div>
+  </div>
+</div>
+
+<section class=" min-h-screen bg-gray-100 dark:bg-gray-900 ">
+  <div class="p-6"></div>
+  <div class="max-w-md mx-auto p-6 bg-white dark:bg-gray-900 rounded-lg shadow-md text-gray-900 dark:text-gray-200">
+    <h1 class="text-2xl font-bold text-center mb-6">Completa tu perfil</h1>
+
+    <form [formGroup]="datosForm" (ngSubmit)="guardarDatos()" class="space-y-6">
+
+      <div class="space-y-4">
+        <h2 class="font-semibold text-lg border-b border-gray-300 dark:border-gray-700 pb-2">Datos Personales</h2>
+
+        <div>
+          <label for="nombre" class="block mb-1 font-medium">Nombre completo</label>
+          <input id="nombre" type="text" formControlName="nombre" required maxlength="25"
+            class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <p *ngIf="datosForm.get('nombre')?.invalid && (datosForm.get('nombre')?.touched || datosForm.get('nombre')?.dirty)"
+            class="text-red-500 text-sm mt-3 p-2">
+            El nombre es requerido (máx. 25 caracteres)
+          </p>
+        </div>
+
+
+        <div>
+          <label for="telefono" class="block mb-1 font-medium">Teléfono</label>
+          <input id="telefono" type="tel" formControlName="telefono"
+            class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+        <div>
+          <label for="direccion" class="block mb-1 font-medium">Dirección</label>
+          <input id="direccion" type="text" formControlName="direccion"
+            class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+      </div>
+
+
+      <div class="space-y-2">
+        <div class="flex flex-col space-y-2 text-gray-900 dark:text-gray-200">
+
+          <label class="inline-flex items-center">
+            <input type="radio" formControlName="role" value="admin" class="form-radio text-blue-600" />
+            <span class="ml-2">Ingresar datos del negocio</span>
+          </label>
+        </div>
+      </div>
+
+      <div *ngIf="isAdminSelected" class="space-y-4 rounded-lg">
+        <h2 class="font-semibold text-lg border-b border-gray-300 dark:border-gray-700 pb-2">Datos del Negocio</h2>
+
+        <div>
+          <label for="nombre_negocio" class="block mb-1 font-medium">Nombre del negocio</label>
+          <input id="nombre_negocio" type="text" formControlName="nombre_negocio" required
+            class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <p *ngIf="datosForm.get('nombre_negocio')?.invalid && (datosForm.get('nombre_negocio')?.touched || datosForm.get('nombre_negocio')?.dirty)"
+            class="text-red-500 text-sm mt-1 p-2">
+            El nombre del negocio es requerido
+          </p>
+        </div>
+
+        <div>
+          <label for="email_negocio" class="block mb-1 font-medium">Email del negocio</label>
+          <input id="email_negocio" type="email" formControlName="email_negocio" required
+            class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <p *ngIf="datosForm.get('email_negocio')?.invalid && (datosForm.get('email_negocio')?.touched || datosForm.get('email_negocio')?.dirty)"
+            class="text-red-500 text-sm mt-1 p-2">
+            Email válido requerido
+          </p>
+        </div>
+
+
+        <div>
+          <label for="telefono_negocio" class="block mb-1 font-medium">Teléfono del negocio</label>
+          <input id="telefono_negocio" type="tel" formControlName="telefono_negocio" required
+            class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          <p *ngIf="datosForm.get('telefono_negocio')?.invalid && (datosForm.get('telefono_negocio')?.touched || datosForm.get('telefono_negocio')?.dirty)"
+            class="text-red-500 text-sm mt-1 p-2">
+            Teléfono requerido
+          </p>
+        </div>
+
+        <div>
+          <label for="descripcion_negocio" class="block mb-1 font-medium">Descripción</label>
+          <textarea id="descripcion_negocio" rows="3" formControlName="descripcion_negocio"
+            class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+        </div>
+
+
+        <div>
+          <label for="alias_negocio" class="block mb-1 font-medium">Alias/Nombre corto</label>
+          <input id="alias_negocio" type="text" formControlName="alias_negocio"
+            class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-200 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+
+
+        <div *ngIf="datosForm.get('brand')?.value" class="p-3 bg-blue-50 dark:bg-blue-900 rounded-md">
+          <p class="text-sm font-medium text-blue-800 dark:text-blue-300">Tu tienda pública estará disponible en:</p>
+          <a [href]="brandPreview" target="_blank" class="text-blue-600 dark:text-blue-400 break-all">{{ brandPreview
+            }}</a>
+        </div>
+
+        <input type="hidden" formControlName="brand" />
+      </div>
+
+
+      <button type="submit"
+        class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md shadow transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="datosForm.invalid || loading">
+        <span *ngIf="!loading">Completar Registro</span>
+        <span *ngIf="loading" class="inline-block animate-spin">⏳</span>
+      </button>
+    </form>
+  </div>
+  <div class="p-6"></div>
+</section>

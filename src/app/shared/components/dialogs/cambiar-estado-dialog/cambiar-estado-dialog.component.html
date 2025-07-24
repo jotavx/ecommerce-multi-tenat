@@ -1,0 +1,19 @@
+<h2 mat-dialog-title class="text-lg font-semibold text-gray-800 dark:text-gray-100">
+  Cambiar estado del pedido
+</h2>
+
+<mat-dialog-content class="flex flex-col gap-3 py-4">
+  <mat-radio-group [(ngModel)]="selectedEstado" class="flex flex-col gap-2">
+    <mat-radio-button *ngFor="let estado of estados" [value]="estado.value"
+      class="text-sm text-gray-800 dark:text-gray-200">
+      {{ estado.label }}
+    </mat-radio-button>
+  </mat-radio-group>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="pt-4">
+  <button mat-button (click)="cancelar()" class="mr-2">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="confirmar()" [disabled]="!selectedEstado">
+    Confirmar
+  </button>
+</mat-dialog-actions>

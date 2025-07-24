@@ -1,0 +1,207 @@
+<!-- <app-spinner *ngIf="loading"></app-spinner>
+
+<div *ngIf="!loading && user" class="max-w-7xl mx-auto p-4">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+
+    <div class="bg-gray-100 dark:bg-gray-800  p-6 rounded-2xl shadow-xl text-white flex flex-col items-center">
+      <img class="w-24 h-24 rounded-full object-cover mb-4 ring-4 ring-blue-500"
+        src="https://images.unsplash.com/photo-1728577740843-5f29c7586afe?q=80&w=2080&auto=format&fit=crop"
+        alt="Foto de perfil" />
+
+      <div class="text-center space-y-1">
+        <h2 class="text-xl font-bold text-blue-400 capitalize">{{ user.nombre }}</h2>
+        <p class=" text-sm text-gray-400">{{ user.email }}</p>
+        <p class="text-sm text-gray-400">{{ user.telefono }}</p>
+        <p class="text-sm text-gray-400">{{ user.direccion }}</p>
+      </div>
+
+      <div class="mt-6 space-y-2 w-full">
+        <button (click)="editarPerfilUsuario()"
+          class="w-full py-2 text-sm font-medium border border-blue-400 text-blue-400 rounded-xl hover:bg-blue-500 hover:text-white transition-all">
+          ✏️ Editar perfil
+        </button>
+
+        <button (click)="logout()"
+          class="w-full py-2 text-sm font-medium border border-red-400 text-red-400 rounded-xl hover:bg-red-500 hover:text-white transition-all">
+          🔓 Cerrar sesión
+        </button>
+      </div>
+    </div>
+
+
+    <div class="bg-gray-100 dark:bg-gray-800  p-6 rounded-2xl shadow-xl text-white flex flex-col items-center">
+      <img class="w-24 h-24 rounded-full object-cover mb-4 ring-4 ring-blue-500"
+        [src]="business.logo_url || 'https://static.vecteezy.com/system/resources/previews/011/855/510/non_2x/shop-building-cartoon-icon-illustration-building-business-icon-concept-isolated-premium-flat-cartoon-style-vector.jpg'"
+        alt="Foto de perfil" />
+
+      <div class="text-center space-y-1">
+        <h2 class="text-xl font-bold text-blue-400 capitalize">{{ business.nombre_negocio }}</h2>
+        <p class=" text-sm text-gray-400">{{ business.email }}</p>
+        <p class="text-sm text-gray-400">{{ business.telefono }}</p>
+        <p class="text-sm text-gray-400">{{ business.descripcion }}</p>
+        <p class="text-sm text-gray-400">{{ business.alias_negocio }}</p>
+      </div>
+
+      <div class="mt-6 space-y-2 w-full">
+        <button (click)="editarNegocioUsuario()"
+          class="w-full py-2 text-sm font-medium border border-blue-400 text-blue-400 rounded-xl hover:bg-blue-500 hover:text-white transition-all">
+          ✏️ Editar negocio
+        </button>
+
+      </div>
+    </div>
+
+
+  </div>
+</div> -->
+<div class="p-6"></div>
+<div class="max-w-3xl mx-auto p-4 sm:p-6 space-y-8 bg-white dark:bg-gray-800 shadow-lg rounded-2xl">
+  <!-- Spinner unificado -->
+  <app-spinner *ngIf="loading" class="flex justify-center items-center min-h-[300px]"></app-spinner>
+
+  <div *ngIf="!loading && user" class="space-y-10">
+    <!-- Sección de Perfil -->
+    <div class="space-y-6">
+      <h2 class="text-3xl font-bold mb-2 text-gray-800 dark:text-white">Configuración de la cuenta</h2>
+
+      <div class="flex flex-col">
+        <!-- Tarjeta de Usuario -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="relative">
+              <img class="w-16 h-16 rounded-full object-cover border-2 border-white dark:border-gray-700 shadow"
+                src="https://images.unsplash.com/photo-1728577740843-5f29c7586afe?q=80&w=2080&auto=format&fit=crop"
+                alt="Foto de perfil" />
+              <div class="absolute -bottom-1 -right-1 bg-blue-500 rounded-full p-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 20 20"
+                  fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                    clip-rule="evenodd" />
+                </svg>
+              </div>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white capitalize">{{ user.nombre }}</h2>
+          </div>
+
+          <div class="space-y-3 text-sm">
+            <div class="flex items-center text-gray-600 dark:text-gray-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 flex-shrink-0" viewBox="0 0 20 20"
+                fill="currentColor">
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+              </svg>
+              <span>{{ user.email }}</span>
+            </div>
+
+            <div class="flex items-center text-gray-600 dark:text-gray-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 flex-shrink-0" viewBox="0 0 20 20"
+                fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z"
+                  clip-rule="evenodd" />
+              </svg>
+              <span>{{ user.telefono || 'Sin teléfono' }}</span>
+            </div>
+
+            <div class="flex items-center text-gray-600 dark:text-gray-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 flex-shrink-0" viewBox="0 0 20 20"
+                fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
+                  clip-rule="evenodd" />
+              </svg>
+              <span>{{ user.direccion || 'Sin dirección' }}</span>
+            </div>
+          </div>
+
+          <div class="mt-6 flex flex-col sm:flex-row gap-3">
+            <button (click)="editarPerfilUsuario()"
+              class="flex-1 flex items-center justify-center gap-2 py-2 px-4 bg-blue-50 dark:bg-gray-700 text-blue-600 dark:text-blue-400 text-sm font-medium rounded-lg hover:bg-blue-100 dark:hover:bg-gray-600 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path
+                  d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+              </svg>
+              Editar perfil
+            </button>
+
+            <button (click)="logout()"
+              class="flex-1 flex items-center justify-center gap-2 py-2 px-4 bg-red-50 dark:bg-gray-700 text-red-600 dark:text-red-400 text-sm font-medium rounded-lg hover:bg-red-100 dark:hover:bg-gray-600 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
+                  clip-rule="evenodd" />
+              </svg>
+              Cerrar sesión
+            </button>
+          </div>
+        </div>
+
+        <!-- Tarjeta de Negocio -->
+        <div
+          class="mt-2 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-100 dark:border-gray-700">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="relative">
+              <img class="w-16 h-16 rounded-full object-cover border-2 border-white dark:border-gray-700 shadow"
+                [src]="business?.logo_url || 'https://static.vecteezy.com/system/resources/previews/011/855/510/non_2x/shop-building-cartoon-icon-illustration-building-business-icon-concept-isolated-premium-flat-cartoon-style-vector.jpg'"
+                alt="Logo del negocio" />
+              <div class="absolute -bottom-1 -right-1 bg-purple-500 rounded-full p-1.5">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" viewBox="0 0 20 20"
+                  fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+                    clip-rule="evenodd" />
+                </svg>
+              </div>
+            </div>
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white">{{ business?.nombre_negocio }}</h2>
+          </div>
+
+          <div class="space-y-3 text-sm">
+            <div class="flex items-center text-gray-600 dark:text-gray-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 flex-shrink-0" viewBox="0 0 20 20"
+                fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M14.243 5.757a6 6 0 10-.986 9.284 1 1 0 111.087 1.678A8 8 0 1118 10a3 3 0 01-4.8 2.401A4 4 0 1114 10a1 1 0 102 0c0-1.537-.586-3.07-1.757-4.243zM12 10a2 2 0 10-4 0 2 2 0 004 0z"
+                  clip-rule="evenodd" />
+              </svg>
+              <span>{{ business?.alias_negocio || 'Sin alias' }}</span>
+            </div>
+
+            <div class="flex items-center text-gray-600 dark:text-gray-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 flex-shrink-0" viewBox="0 0 20 20"
+                fill="currentColor">
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+              </svg>
+              <span>{{ business?.email || 'Sin email' }}</span>
+            </div>
+
+            <div class="flex items-center text-gray-600 dark:text-gray-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 flex-shrink-0" viewBox="0 0 20 20"
+                fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm3 14a1 1 0 100-2 1 1 0 000 2z"
+                  clip-rule="evenodd" />
+              </svg>
+              <span>{{ business?.telefono || 'Sin teléfono' }}</span>
+            </div>
+
+            <div class="pt-2">
+              <p class="text-gray-500 dark:text-gray-400 text-sm line-clamp-2">
+                {{ business?.descripcion || 'Sin descripción' }}
+              </p>
+            </div>
+          </div>
+
+          <button (click)="editarNegocioUsuario()"
+            class="mt-6 w-full flex items-center justify-center gap-2 py-2 px-4 bg-purple-50 dark:bg-gray-700 text-purple-600 dark:text-purple-400 text-sm font-medium rounded-lg hover:bg-purple-100 dark:hover:bg-gray-600 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path
+                d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+            </svg>
+            Editar negocio
+          </button>
+        </div>
+      </div>
+    </div>

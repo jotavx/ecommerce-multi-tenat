@@ -1,0 +1,97 @@
+<div class="min-h-screen w-full bg-gradient-to-br from-white to-white dark:from-gray-900 dark:to-gray-800 p-4 sm:p-8">
+  <div
+    class="max-w-4xl mx-auto backdrop-blur-lg bg-white dark:bg-white/5 shadow-xl rounded-3xl px-4 sm:px-6 py-8 sm:py-10">
+
+    <div class="text-2xl font-extrabold text-start text-blue-800 dark:text-white mb-6 sm:mb-8">Tu carrito
+    </div>
+
+    <app-spinner *ngIf="loading"></app-spinner>
+
+    <div *ngIf="cartItems.length === 0" class="text-center mt-20">
+      <p class="text-lg sm:text-xl text-gray-700 dark:text-gray-300 mt-4">El carrito está vacío.</p>
+      <a [routerLink]="['/tienda', brand]"
+        class="p-1 inline-block mt-2 text-blue-700 dark:text-blue-300 underline hover:opacity-90">
+        Agrega productos para comenzar tu pedido.
+      </a>
+    </div>
+
+    <div *ngIf="cartItems.length > 0" class="space-y-6">
+      <div *ngFor="let item of cartItems; let i = index"
+        class="bg-gray-100 dark:bg-gray-800 rounded-2xl p-4 sm:p-5 shadow-inner border border-white/20 dark:border-white/5 flex flex-col sm:flex-row gap-4 sm:gap-5">
+
+        <img
+          [src]="item.product?.image_url || 'https://img.freepik.com/vector-premium/dibujo-dibujos-animados-plato-comida-dos-huevos-rebanada-pan_218179-2037.jpg'"
+          alt="{{ item.product?.name }}"
+          class="w-24 h-24 object-cover rounded-xl border border-gray-300 dark:border-gray-700 self-start" />
+
+        <div class="flex-1 space-y-2 text-gray-800 dark:text-gray-200">
+          <div class="flex flex-row justify-between items-center gap-2">
+            <span class="text-lg sm:text-xl font-semibold text-blue-900 dark:text-white">
+              {{ item.product?.name }}
+            </span>
+            <button (click)="remove(item, i)"
+              class="p-2 rounded-lg bg-red-500 dark:bg-red-900 hover:bg-red-200 dark:hover:bg-red-800 text-red-700 dark:text-red-400 transition"
+              aria-label="Eliminar">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white dark:text-white" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          </div>
+
+          <div *ngIf="item.selectedVariants?.length" class="text-sm">
+            <strong class="text-blue-700 dark:text-blue-300">Variantes:</strong>
+            <ul class="list-disc ml-5">
+              <li *ngFor="let v of item.selectedVariants">
+                {{ v.name }} <span *ngIf="v.custom_price || v.price"> (+${{ v.custom_price || v.price || 0 }})</span>
+              </li>
+            </ul>
+          </div>
+
+          <div *ngIf="item.selectedOptions?.length" class="text-sm">
+            <strong class="text-blue-700 dark:text-blue-300">Extras:</strong>
+            <ul class="list-disc ml-5">
+              <li *ngFor="let o of item.selectedOptions">
+                {{ o.name }}
+                <span *ngIf="o.quantity"> x{{ o.quantity }} u.</span>
+                <span *ngIf="o.price > 0">
+                  (+${{ o.price }} c/u, Total: ${{ o.quantity ? o.quantity * o.price : o.price }})
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          <div *ngIf="item.observation" class="text-xs italic text-gray-500 dark:text-gray-300 mt-1">
+            Observación: {{ item.observation }}
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm mt-2 font-medium">
+            <span>Cantidad: {{ item.quantity }}</span>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="cartItems.length > 0" class="mt-10 pt-6 border-t border-white/30 dark:border-white/10">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <p class="text-2xl sm:text-3xl font-bold text-blue-900 dark:text-white text-center sm:text-left">
+          Total: {{ getTotal() | currency: '$' }}
+        </p>
+
+        <div class="flex flex-wrap justify-center sm:justify-end gap-3">
+          <button (click)="clearCart()"
+            class="px-5 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-600 transition font-medium shadow">
+            Vaciar
+          </button>
+          <button [routerLink]="['/tienda', brand, 'checkout']"
+            class="px-6 py-2 rounded-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-bold transition shadow-lg">
+            Confirmar
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

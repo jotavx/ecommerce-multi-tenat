@@ -1,0 +1,73 @@
+<div class="p-6"></div>
+<div class="p-6 max-w-3xl mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-2xl">
+  <div class="mb-8">
+    <h2 class="text-3xl font-bold mb-2 text-gray-800 dark:text-white">Configura tus métodos de pago</h2>
+    <p class="text-gray-600 dark:text-gray-300">Agrega los métodos de pago que acepta tu negocio.</p>
+  </div>
+
+  <div class="mt-8 p-5 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-lg font-medium text-gray-800 dark:text-white">Transferencia</p>
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          {{ metodosPago.metodos['transferencia'] ? 'Activado' : 'Desactivado' }}
+        </p>
+      </div>
+      <mat-slide-toggle [checked]="metodosPago.metodos['transferencia']" (change)="toggleMetodo('transferencia')"
+        color="warn">
+        <span class="text-sm font-medium text-gray-800 dark:text-gray-100">
+          {{ metodosPago.metodos['transferencia'] ? 'Desactivar' : 'Activar' }}
+        </span>
+      </mat-slide-toggle>
+    </div>
+  </div>
+
+  <div class="mt-8 p-5 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-lg font-medium text-gray-800 dark:text-white">Efectivo</p>
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          {{ metodosPago.metodos['efectivo'] ? 'Activado' : 'Desactivado' }}
+        </p>
+      </div>
+      <mat-slide-toggle [checked]="metodosPago.metodos['efectivo']" (change)="toggleMetodo('efectivo')" color="warn">
+        <span class="text-sm font-medium text-gray-800 dark:text-gray-100">
+          {{ metodosPago.metodos['efectivo'] ? 'Desactivar' : 'Activar' }}
+        </span>
+      </mat-slide-toggle>
+    </div>
+  </div>
+
+  <div class="mt-8 p-5 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-lg font-medium text-gray-800 dark:text-white">Tarjeta Débito</p>
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          {{ metodosPago.metodos['debito'] ? 'Activado' : 'Desactivado' }}
+        </p>
+      </div>
+      <mat-slide-toggle [checked]="metodosPago.metodos['debito']" (change)="toggleMetodo('debito')" color="warn">
+        <span class="text-sm font-medium text-gray-800 dark:text-gray-100">
+          {{ metodosPago.metodos['debito'] ? 'Desactivar' : 'Activar' }}
+        </span>
+      </mat-slide-toggle>
+    </div>
+  </div>
+
+  <div class="mt-8 p-5 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
+    <div class="flex items-center justify-between">
+      <div>
+        <p class="text-lg font-medium text-gray-800 dark:text-white">Tarjeta Crédito</p>
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          {{ metodosPago.metodos['credito'] ? 'Activado' : 'Desactivado' }}
+        </p>
+      </div>
+      <mat-slide-toggle [checked]="metodosPago.metodos['credito']" (change)="toggleMetodo('credito')" color="warn">
+        <span class="text-sm font-medium text-gray-800 dark:text-gray-100">
+          {{ metodosPago.metodos['credito'] ? 'Desactivar' : 'Activar' }}
+        </span>
+      </mat-slide-toggle>
+    </div>
+  </div>
+
+</div>

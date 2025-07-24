@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>{{ data.variant ? 'Editar Variante' : 'Nueva Variante' }}</h2>
+
+<mat-dialog-content>
+  <form #form="ngForm" (ngSubmit)="save()">
+    <mat-form-field class="w-full">
+      <mat-label>Nombre</mat-label>
+      <input matInput [(ngModel)]="name" name="nombre" required #nombre="ngModel" maxlength="50" />
+      <mat-error *ngIf="nombre.invalid && nombre.touched">El nombre es obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-dialog-actions align="end">
+      <button mat-button type="button" (click)="onCancel()">Cancelar</button>
+      <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Aceptar</button>
+    </mat-dialog-actions>
+  </form>
+</mat-dialog-content>

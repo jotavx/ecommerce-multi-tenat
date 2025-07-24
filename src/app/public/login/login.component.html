@@ -1,0 +1,78 @@
+<section class="bg-gray-50 dark:bg-gray-900 h-screen">
+  <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+    <span class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+      <img class="w-12 h-9 mr-2" src="../../../assets/pediloApp.png" alt="logo">
+      PediloApp.com
+    </span>
+    <div
+      class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+      <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+        <div class="mt-8">
+          <div class="flex items-center justify-between mt-4">
+            <span class="w-1/5 border-b dark:border-gray-600 lg:w-1/4"></span>
+            <span class="text-xs text-center text-gray-500 uppercase dark:text-gray-400 no-select">Inicia sesion
+            </span>
+            <span class="w-1/5 border-b dark:border-gray-400 lg:w-1/4"></span>
+          </div>
+          <!-- <form class="pb-2 mt-5">
+            <input type="hidden" name="provider" value="google" /><button (click)="loginWithGoogle()"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-400 dark:border-white  bg-none hover:bg-accent  h-10 px-4 w-full  py-6 hover:bg-blue-600 dark:text-white hover:text-white"
+              type="submit">
+              <span class="mr-2"><svg stroke="currentColor" fill="currentColor" stroke-width="0" version="1.1" x="0px"
+                  y="0px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" class="h-5 w-5" height="1em" width="1em"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path fill="#FFC107"
+                    d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12
+                                      c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24
+                                      c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z">
+                  </path>
+                  <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657
+                                      C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path>
+                  <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36
+                                      c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z">
+                  </path>
+                  <path fill="#1976D2"
+                    d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571
+                                      c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z">
+                  </path>
+                </svg></span><span class="font-semibold">Google</span>
+            </button>
+          </form> -->
+        </div>
+        <form class="space-y-4 md:space-y-6" (ngSubmit)="onLogin()">
+          <div>
+            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+            <input type="email" name="email" id="email" [(ngModel)]="email"
+              class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="email@ejemplo.com" required="">
+          </div>
+          <div>
+            <label for="password"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
+            <input type="password" name="password" id="password" placeholder="••••••••" [(ngModel)]="password"
+              class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              required="">
+          </div>
+          <div class="flex items-center justify-between">
+
+            <a href="#" class="text-sm font-medium text-primary-600 hover:underline dark:text-white">Olvidaste la
+              contraseña?</a>
+          </div>
+          <button type="submit"
+            class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-800 rounded-lg hover:bg-sky-700 focus:outline-none focus:ring focus:ring-sky-300 focus:ring-opacity-50">Iniciar
+            sesión</button>
+
+          <button routerLink="/register" type="button"
+            class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-orange-800 rounded-lg hover:bg-orange-700 focus:outline-none focus:ring focus:ring-orange-300 focus:ring-opacity-50">
+            Registrarse
+          </button>
+
+          <p routerLink="/home"
+            class="text-center text-sm font-light text-gray-700 dark:text-white cursor-pointer hover:underline">
+            Continuar sin una cuenta
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,164 @@
+<!-- <div class="p-6 max-w-3xl mx-auto  shadow-md rounded-xl min-h-screen">
+  <app-spinner *ngIf="loading"></app-spinner>
+
+  <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Horarios de atención</h2>
+
+  <form (ngSubmit)="agregarHorario()" #form="ngForm" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end mb-8">
+    <div>
+      <label for="dia" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Día</label>
+      <select id="dia" name="dia" [(ngModel)]="nuevoHorario.dia" required
+        class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option *ngFor="let d of dias" [value]="d.value">{{ d.label }}</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="horaInicio" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Desde</label>
+      <input id="horaInicio" type="time" name="horaInicio" [(ngModel)]="nuevoHorario.horaInicio" required
+        class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    </div>
+
+    <div>
+      <label for="horaFin" class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">Hasta</label>
+      <input id="horaFin" type="time" name="horaFin" [(ngModel)]="nuevoHorario.horaFin" required
+        class="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+    </div>
+
+    <button type="submit"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition">
+      Agregar
+    </button>
+  </form>
+
+  <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+    <li *ngFor="let h of horarios" class="flex justify-between items-center py-3">
+      <span class="text-gray-800 dark:text-gray-200">
+        {{ dias[h.dia].label }}: {{ h.horaInicio }} – {{ h.horaFin }}
+      </span>
+      <button (click)="eliminarHorario(h.id!)" class="text-red-600 hover:underline font-medium">
+        Eliminar
+      </button>
+    </li>
+  </ul>
+
+  <div class="mt-8">
+    <mat-slide-toggle [checked]="configService.cerradoTemporalmente" (change)="toggleTienda()" color="warn">
+      <span class="text-sm font-medium text-gray-800 dark:text-gray-100">Cerrar tienda temporalmente</span>
+    </mat-slide-toggle>
+  </div>
+</div> -->
+<div class="p-6"></div>
+<div class="p-6 max-w-3xl mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-2xl ">
+  <app-spinner *ngIf="loading"></app-spinner>
+
+  <div class="mb-8">
+    <h2 class="text-3xl font-bold mb-2 text-gray-800 dark:text-white">Configura tus horarios</h2>
+    <p class="text-gray-600 dark:text-gray-300">Agrega los horarios en los que tu tienda estará abierta</p>
+  </div>
+
+  <div
+    class="flex items-start bg-yellow-50 dark:bg-yellow-950 border-l-4 border-yellow-400 text-yellow-800 dark:text-yellow-200 p-4 rounded-lg mb-4">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+      class="size-6 me-5">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+    </svg>
+    <p class="text-sm">
+      Tu tienda permanecerá cerrada si no configurás horarios de atención. <span class="font-medium">Asegurate de
+        establecerlos para comenzar a vender.</span>
+  </div>
+
+  <form (ngSubmit)="agregarHorario()" #form="ngForm"
+    class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end mb-8 bg-blue-50 dark:bg-gray-700 p-5 rounded-xl">
+    <div>
+      <label for="dia" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Día de la semana</label>
+      <select id="dia" name="dia" [(ngModel)]="nuevoHorario.dia" required
+        class="w-full border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+        <option *ngFor="let d of dias" [value]="d.value">{{ d.label }}</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="horaInicio" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Hora de
+        apertura</label>
+      <input id="horaInicio" type="time" name="horaInicio" [(ngModel)]="nuevoHorario.horaInicio" required
+        class="w-full border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+    </div>
+
+    <div>
+      <label for="horaFin" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Hora de
+        cierre</label>
+      <input id="horaFin" type="time" name="horaFin" [(ngModel)]="nuevoHorario.horaFin" required
+        class="w-full border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+    </div>
+
+    <button type="submit"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition transform hover:scale-105 shadow-md">
+      <span class="flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd"
+            d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+            clip-rule="evenodd" />
+        </svg>
+        Agregar
+      </span>
+    </button>
+  </form>
+
+  <div class="bg-white dark:bg-gray-700 rounded-xl shadow-sm overflow-hidden">
+    <div class="p-4 bg-gray-50 dark:bg-gray-600 border-b border-gray-200 dark:border-gray-600">
+      <h3 class="font-medium text-gray-800 dark:text-white">Horarios actuales</h3>
+    </div>
+    <ul class="divide-y divide-gray-200 dark:divide-gray-600">
+      <li *ngFor="let h of horarios"
+        class="flex justify-between items-center py-4 px-4 hover:bg-gray-50 dark:hover:bg-gray-600 transition">
+        <div class="flex items-center">
+          <span
+            class="inline-block w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 flex items-center justify-center mr-3">
+            {{ dias[h.dia].label.charAt(0) }}
+          </span>
+          <span class="text-gray-800 dark:text-gray-200 font-medium">
+            {{ dias[h.dia].label }}: {{ h.horaInicio }} – {{ h.horaFin }}
+          </span>
+        </div>
+        <button (click)="eliminarHorario(h.id!)"
+          class="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 p-2 rounded-full hover:bg-red-50 dark:hover:bg-gray-500 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+              clip-rule="evenodd" />
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </div>
+  <div class="p-4"></div>
+  <div
+    class="flex items-start bg-yellow-50 dark:bg-yellow-950 border-l-4 border-yellow-400 text-yellow-800 dark:text-yellow-200 p-4 rounded-lg mb-4">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+      class="size-6 me-5">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+    </svg>
+    <p class="text-sm">
+      Puedes cerrar tu tienda manualmente en cualquier momento, independientemente de los horarios configurados. <span
+        class="font-medium">No olvides volver a activarla cuando desees reabrirla.</span>
+  </div>
+  <div class="mt-8 p-5 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
+
+    <div class="flex items-center justify-between">
+
+      <div>
+        <h3 class="text-lg font-medium text-gray-800 dark:text-white mb-1">Estado de la tienda</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-300">
+          {{ configService.cerradoTemporalmente ? 'Actualmente cerrada' : 'Actualmente abierta' }}
+        </p>
+      </div>
+      <mat-slide-toggle [checked]="configService.cerradoTemporalmente" (change)="toggleTienda()" color="warn">
+        <span class="text-sm font-medium text-gray-800 dark:text-gray-100">
+          {{ configService.cerradoTemporalmente ? 'Abrir tienda' : 'Cerrar temporalmente' }}
+        </span>
+      </mat-slide-toggle>
+    </div>
+  </div>
+</div>

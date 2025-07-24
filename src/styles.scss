@@ -1,0 +1,30 @@
+@use "@angular/material" as mat;
+
+@include mat.core();
+
+$light-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: mat.define-palette(mat.$indigo-palette),
+      accent: mat.define-palette(mat.$pink-palette),
+    ),
+  )
+);
+
+$dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: mat.define-palette(mat.$indigo-palette),
+      accent: mat.define-palette(mat.$pink-palette),
+    ),
+  )
+);
+
+/* Se aplicará a body y overlay con la clase dark */
+.dark {
+  @include mat.all-component-colors($dark-theme);
+}
+
+body {
+  @include mat.all-component-colors($light-theme);
+}

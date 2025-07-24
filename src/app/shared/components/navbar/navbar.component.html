@@ -1,0 +1,212 @@
+<div class="w-full bg-gradient-to-br from-gray-900 to-gray-800 dark:from-gray-900 dark:to-gray-800 p-6">
+
+  <div class="flex justify-between">
+    <div class="flex items-center">
+
+      <button (click)="toggleSidebar()" class="hidden sm:inline text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+        </svg>
+      </button>
+
+
+      <!-- <div *ngIf="!notUser && user" class="hidden sm:inline ms-3 text-white">
+        <div class="flex flex-row items-center">
+
+          <img src="https://images.unsplash.com/photo-1728577740843-5f29c7586afe?q=80&w=2080&auto=format&fit=crop"
+            alt="Foto de perfil" class="w-8 h-8 rounded-full object-cover shadow-md " />
+        </div>
+      </div> -->
+
+    </div>
+
+    <div class="flex-1 flex justify-center items-center">
+      <img [src]="logoUrl" alt="Logo" class="h-8 w-auto" />
+      <div *ngIf="brand" class="text-xl font-extrabold text-white text-center ">/{{brand}}</div>
+      <div *ngIf="!brand" class="text-xl font-extrabold text-white text-center ">/PediloApp</div>
+    </div>
+
+    <div class="flex items-center justify-end">
+      <button *ngIf="this.router.url !== '/home'" [routerLink]="['/tienda', brand]"
+        class="hidden me-2 sm:inline text-white"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+          fill="currentColor" class="size-6 ">
+          <path
+            d="M11.47 3.841a.75.75 0 0 1 1.06 0l8.69 8.69a.75.75 0 1 0 1.06-1.061l-8.689-8.69a2.25 2.25 0 0 0-3.182 0l-8.69 8.69a.75.75 0 1 0 1.061 1.06l8.69-8.689Z" />
+          <path
+            d="m12 5.432 8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 0 1-.75-.75v-4.5a.75.75 0 0 0-.75-.75h-3a.75.75 0 0 0-.75.75V21a.75.75 0 0 1-.75.75H5.625a1.875 1.875 0 0 1-1.875-1.875v-6.198a2.29 2.29 0 0 0 .091-.086L12 5.432Z" />
+        </svg>
+      </button>
+
+      <button *ngIf="this.router.url !== '/home'" [routerLink]="['/tienda', brand, 'cart']"
+        class="hidden me-2 sm:inline text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 ">
+          <path fill-rule="evenodd"
+            d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 0 0 4.25 22.5h15.5a1.875 1.875 0 0 0 1.865-2.071l-1.263-12a1.875 1.875 0 0 0-1.865-1.679H16.5V6a4.5 4.5 0 1 0-9 0ZM12 3a3 3 0 0 0-3 3v.75h6V6a3 3 0 0 0-3-3Zm-3 8.25a3 3 0 1 0 6 0v-.75a.75.75 0 0 1 1.5 0v.75a4.5 4.5 0 1 1-9 0v-.75a.75.75 0 0 1 1.5 0v.75Z"
+            clip-rule="evenodd" />
+        </svg>
+        <div class="relative">
+          <i class="fas fa-shopping-cart text-xl"></i>
+          <span *ngIf="cartItemCount > 0"
+            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
+            {{ cartItemCount }}
+          </span>
+        </div>
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<!-- Sidebar -->
+<div [class.-translate-x-full]="!isSidebarOpen"
+  class="fixed top-0 left-0 z-40 w-64 h-screen p-4 overflow-y-auto transition-transform bg-white dark:bg-gray-800"
+  [class.translate-x-0]="isSidebarOpen">
+
+  <div class="flex justify-between items-center mb-4">
+    <h5 class="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">Menu</h5>
+    <button (click)="toggleSidebar()"
+      class="text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg text-sm p-1.5">
+      ✕
+    </button>
+  </div>
+
+  <div *ngIf="!notUser && user" class=" sm:inline text-gray-900 dark:text-white mb-5 p-5 border-gray-200">
+    <div class="flex flex-row items-center justify-center">
+      <img src="https://images.unsplash.com/photo-1728577740843-5f29c7586afe?q=80&w=2080&auto=format&fit=crop"
+        alt="Foto de perfil" class="w-16 h-16 rounded-full object-cover shadow-md " />
+    </div>
+    <div class="text-xs text-center mt-2">Bienvenido! </div>
+  </div>
+
+
+
+
+
+  <ul class="space-y-4 font-medium mt-10">
+    <li>
+      <a *ngIf="this.router.url !== '/home'" [routerLink]="['/tienda', brand]"
+        class="flex items-center gap-3 p-2 rounded-lg transition-colors text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M13 5v6h6" />
+        </svg>
+        <span>Inicio</span>
+      </a>
+    </li>
+
+    <li *ngIf="!isUserAdmin && !loading">
+      <a *ngIf="this.router.url !== '/home'" [routerLink]="['/tienda', brand, 'dashboard-user']"
+        class="flex items-center gap-3 p-2 rounded-lg transition-colors text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18" />
+        </svg>
+        <span>Mis Pedidos</span>
+      </a>
+    </li>
+
+    <li>
+      <a (click)="toggleTheme()"
+        class="flex items-center gap-3 p-2 rounded-lg transition-colors text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+        <svg class="w-5 h-5 text-yellow-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 3v1m0 16v1m8.66-13.66l-.71.71M4.05 19.95l-.71-.71m0-14.14l.71.71M19.95 19.95l-.71-.71M21 12h-1M4 12H3m9 4a4 4 0 100-8 4 4 0 000 8z" />
+        </svg>
+
+        <span>Tema</span>
+      </a>
+    </li>
+
+    <li *ngIf="!notUser && !loading">
+      <a (click)="logout()"
+        class="flex items-center gap-3 p-2 rounded-lg transition-colors text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1m0-10v1" />
+        </svg>
+        <span>Cerrar Sesión</span>
+      </a>
+    </li>
+
+
+    <li *ngIf="notUser && !loading">
+      <button routerLink="/login"
+        class="w-full px-2 py-2 text-sm font-medium text-white bg-blue-700 hover:bg-blue-600 rounded-lg transition focus:outline-none focus:ring-2 focus:ring-blue-300">
+        Iniciar sesión
+      </button>
+    </li>
+
+    <li *ngIf="notUser && !loading">
+      <button routerLink="/register"
+        class="w-full px-2 py-2 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-orange-800 rounded-lg hover:bg-orange-700 focus:outline-none focus:ring focus:ring-orange-300 focus:ring-opacity-50">
+        Registrarse
+      </button>
+    </li>
+  </ul>
+</div>
+
+
+<nav
+  class="fixed bottom-0 left-0 w-full bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 sm:hidden z-50">
+  <div class="flex justify-around items-center p-2">
+
+    <!-- Inicio -->
+    <button *ngIf="this.router.url !== '/home'" [routerLink]="['/tienda', brand]" routerLinkActive="font-bold"
+      class="flex flex-col items-center gap-0.5 text-gray-700 dark:text-white ">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M3 9.75L12 3l9 6.75v10.5A1.5 1.5 0 0 1 19.5 21h-15A1.5 1.5 0 0 1 3 20.25V9.75z" />
+      </svg>
+      <span class="text-xs leading-none">Inicio</span>
+    </button>
+
+
+    <button *ngIf="this.router.url !== '/home'" [routerLink]="['/tienda', brand, 'dashboard-user']"
+      routerLinkActive="font-bold" class="flex flex-col items-center gap-0.5 text-gray-700 dark:text-white">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+        class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round"
+          d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+      </svg>
+
+      <span class="text-xs leading-none">Pedidos</span>
+    </button>
+
+    <!-- Carrito -->
+    <button *ngIf="this.router.url !== '/home'" [routerLink]="['/tienda', brand, 'cart']" routerLinkActive="font-bold"
+      class="relative flex flex-col items-center gap-0.5 text-gray-700 dark:text-white">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993
+          1.263 12c.07.665-.45 1.243-1.119
+          1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125
+          1.125 0 0 1 5.513 7.5h12.974c.576 0
+          1.059.435 1.119 1.007ZM8.625 10.5a.375.375
+          0 1 1-.75 0 .375.375 0 0 1 .75
+          0Zm7.5 0a.375.375 0 1 1-.75 0
+          .375.375 0 0 1 .75 0Z" />
+      </svg>
+      <span class="text-xs leading-none">Carrito</span>
+
+      <!-- Contador -->
+      <span *ngIf="cartItemCount > 0"
+        class="absolute top-0 right-0 transform translate-x-2 -translate-y-1 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5">
+        {{ cartItemCount }}
+      </span>
+    </button>
+
+    <!-- Menú -->
+    <button (click)="toggleSidebar()"
+      class="flex flex-col items-center gap-0.5 text-gray-700 dark:text-white active:font-bold">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
+      </svg>
+      <span class="text-xs leading-none">Menú</span>
+    </button>
+  </div>
+</nav>
+
+
+<app-dashboard></app-dashboard>
+<app-admin-notifications *ngIf="isUserAdmin"></app-admin-notifications>

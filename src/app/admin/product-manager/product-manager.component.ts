@@ -8,6 +8,7 @@ import {
   ConfirmDialogData,
 } from '../../shared/components/dialogs/confirm-dialog/confirm-dialog.component';
 import { ProductDialogComponent } from '../../shared/components/dialogs/product-dialog/product-dialog.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-product-manager',
@@ -21,14 +22,20 @@ export class ProductManagerComponent implements OnInit {
   openDropdownId: string | null = null;
   itemsPerPage = 10;
   currentPage = 1;
+  brand: string | null = null;
+  imageUrl: any;
 
   constructor(
     private productService: ProductService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
   ) {}
 
   async ngOnInit() {
+    this.route.paramMap.subscribe((params) => {
+      this.brand = params.get('brand') || '';
+    });
     await this.loadProducts();
   }
 
@@ -98,8 +105,17 @@ export class ProductManagerComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
         try {
-          await this.productService.deleteProduct(id);
+          // 1️⃣ Obtener URL o path de la imagen
+          const imageResult = await this.productService.getImageUrl(id);
+          const imageUrl = imageResult?.imageUrl; // puede ser null o undefined
+
+          // 2️⃣ Eliminar producto (y si corresponde, la imagen)
+          await this.productService.deleteProduct(id, imageUrl);
+
+          // 3️⃣ Actualizar la lista local
           this.products = this.products.filter((p) => p.id !== id);
+
+          // 4️⃣ Notificación de éxito
           this.showSuccess('Producto eliminado correctamente');
         } catch (error) {
           this.showError(
@@ -109,6 +125,35 @@ export class ProductManagerComponent implements OnInit {
       }
     });
   }
+
+  // async deleteProduct(id: string) {
+  //   const dialogData: ConfirmDialogData = {
+  //     title: 'Eliminar producto',
+  //     message:
+  //       '¿Estás seguro que quieres eliminar este producto? Esta acción no se puede deshacer.',
+  //     confirmText: 'Eliminar',
+  //     cancelText: 'Cancelar',
+  //   };
+
+  //   const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+  //     width: '400px',
+  //     data: dialogData,
+  //   });
+
+  //   dialogRef.afterClosed().subscribe(async (result) => {
+  //     if (result) {
+  //       try {
+  //         await this.productService.deleteProduct(id);
+  //         this.products = this.products.filter((p) => p.id !== id);
+  //         this.showSuccess('Producto eliminado correctamente');
+  //       } catch (error) {
+  //         this.showError(
+  //           'Error al eliminar producto: ' + (error as Error).message
+  //         );
+  //       }
+  //     }
+  //   });
+  // }
 
   // Métodos de UI
   toggleDropdown(id: string) {

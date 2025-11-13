@@ -31,7 +31,7 @@ export class OrdersManagerComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.brand = params.get('brand') || '';
-      console.warn('Brand en categories-list:', this.brand);
+      // console.warn('Brand en orders-manager:', this.brand);
 
       if (this.brand) {
         this.businessService

@@ -6,6 +6,4 @@ import { BusinessService } from '../../core/services/business.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent {
-  constructor() {}
-}
+export class HomeComponent {}

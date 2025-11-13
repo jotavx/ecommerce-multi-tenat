@@ -20,6 +20,8 @@ import { ProductManagerComponent } from './admin/product-manager/product-manager
 import { ConfigComponent } from './admin/config/config.component';
 import { RegisterSuccessComponent } from './public/register-success/register-success.component';
 import { CheckoutComponent } from './public/checkout/checkout.component';
+import { PaymentComponent } from './public/payment/payment.component';
+import { DashboardComponent } from './admin/dashboard/dashboard.component';
 
 const routes: Routes = [
   // BRAND ROUTES
@@ -58,6 +60,11 @@ const routes: Routes = [
   },
 
   // ADMIN ROUTES
+  // {
+  //   path: 'tienda/:brand/dashboard',
+  //   component: DashboardComponent,
+  //   canActivate: [AdminGuard],
+  // },
   {
     path: 'tienda/:brand/orders-manager',
     component: OrdersManagerComponent,
@@ -79,13 +86,18 @@ const routes: Routes = [
     canActivate: [AdminGuard],
   },
   {
-    path: 'variants-products-manager/:id',
+    path: 'tienda/:brand/variants-products-manager/:id',
     component: VariantsProductsManagerComponent,
     canActivate: [AdminGuard],
   },
   {
     path: 'tienda/:brand/config',
     component: ConfigComponent,
+    canActivate: [AdminGuard],
+  },
+  {
+    path: 'tienda/:brand/subscription',
+    component: PaymentComponent,
     canActivate: [AdminGuard],
   },
 

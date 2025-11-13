@@ -5,31 +5,51 @@ import { SupabaseService } from './supabase.service';
 @Injectable({ providedIn: 'root' })
 export class formasEntregaService {
   private supabase: SupabaseClient;
-  metodos: { [key: string]: boolean } = {};
+  metodos: { name: string; label: string; active: boolean }[] = [];
 
   constructor(private supabaseService: SupabaseService) {
     this.supabase = this.supabaseService.getClient();
   }
 
   async getFormasEntrega(businessId: string | null) {
-    const { data, error } = await this.supabase
+    const { data: disponibles, error: errorDisponibles } = await this.supabase
+      .from('formas_entrega_disponibles')
+      .select('*');
+
+    const { data: activos, error: errorActivos } = await this.supabase
       .from('formas_entrega')
       .select('*')
       .eq('business_id', businessId);
 
-    if (!error && data) {
-      this.metodos = {};
-      data.forEach((m: any) => {
-        this.metodos[m.name] = m.active;
-      });
-    } else {
-      console.error('Error al obtener métodos de pago:', error?.message);
+    if (errorDisponibles || errorActivos) {
+      console.error(
+        'Error al obtener formas de entrega:',
+        errorDisponibles || errorActivos
+      );
+      return;
     }
+
+    this.metodos = disponibles.map((m) => {
+      const activo = activos.find((a) => a.name === m.name);
+      return {
+        name: m.name,
+        label: m.label,
+        active: activo ? activo.active : false,
+      };
+    });
+  }
+
+  getFormasEntregaActivas(): { name: string; label: string }[] {
+    return this.metodos
+      .filter((m) => m.active)
+      .map((m) => ({ name: m.name, label: m.label }));
   }
 
   async toggleMetodo(name: string, businessId: string | null) {
-    const currentState = this.metodos[name] ?? false;
-    const nuevoEstado = !currentState;
+    const metodo = this.metodos.find((m) => m.name === name);
+    if (!metodo) return;
+
+    const nuevoEstado = !metodo.active;
 
     const { data, error } = await this.supabase
       .from('formas_entrega')
@@ -44,11 +64,14 @@ export class formasEntregaService {
         .insert([{ name, business_id: businessId, active: true }]);
 
       if (insertError) {
-        console.error('No se pudo insertar:', insertError.message);
+        console.error(
+          'Error al insertar forma de entrega:',
+          insertError.message
+        );
         return;
       }
 
-      this.metodos[name] = true;
+      metodo.active = true;
       return;
     }
 
@@ -59,10 +82,13 @@ export class formasEntregaService {
       .eq('business_id', businessId);
 
     if (updateError) {
-      console.error('No se pudo actualizar:', updateError.message);
+      console.error(
+        'Error al actualizar forma de entrega:',
+        updateError.message
+      );
       return;
     }
 
-    this.metodos[name] = nuevoEstado;
+    metodo.active = nuevoEstado;
   }
 }

@@ -10,12 +10,10 @@ import { UserService } from '../../core/services/user.service';
 export class BusinessesComponent {
   businesses: any[] = [];
 
-  constructor(
-    private userService: UserService,
-    private businessService: BusinessService
-  ) {}
+  constructor(private businessService: BusinessService) {}
 
   ngOnInit() {
+    // Limpiar cache para forzar recarga
     this.businessService.clearCache();
     this.getAllBusiness();
   }

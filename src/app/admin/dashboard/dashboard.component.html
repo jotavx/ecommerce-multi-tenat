@@ -1,18 +1,35 @@
-<div *ngIf="isUserAdmin" class="w-full flex flex-row bg-gray-100 dark:bg-gray-800 px-6 py-4   shadow-md overflow-auto ">
+<div *ngIf="isUserAdmin" class="w-full flex flex-row bg-white dark:bg-gray-800 px-6 py-4 shadow-md overflow-auto  ">
   <ul class="flex flex-row space-x-6">
     <li>
+      <a [routerLink]="['/tienda', brand, 'orders-manager']"
+        routerLinkActive="py-2 font-medium text-sm whitespace-nowrap border-b-2 border-blue-500 text-blue-600"
+        class="px-4 py-2 font-medium text-sm whitespace-nowrap text-gray-700 dark:text-white dark:hover:text-white">
+
+        <span class="flex-1 ms-3 whitespace-nowrap" [ngClass]="{
+          'text-green-600 dark:text-green-400 font-semibold': pendingCount > 0
+        }">
+          Pedidos
+        </span>
+
+        <span *ngIf="pendingCount > 0"
+          class="inline-flex items-center justify-center h-5 px-2 text-xs font-medium rounded-full bg-green-600 text-white">
+          {{ pendingCount }}
+        </span>
+      </a>
+    </li>
+    <!-- <li>
       <a [routerLink]="['/tienda', brand, 'orders-manager',
 ]" routerLinkActive="px-4 py-2 font-medium text-sm whitespace-nowrap border-b-2 border-blue-500 text-blue-600"
         [routerLinkActiveOptions]="{ exact: true }"
         class="px-4 py-2 font-medium text-sm whitespace-nowrap text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white">
         Pedidos
       </a>
-    </li>
+    </li> -->
     <li>
       <a [routerLink]="['/tienda', brand, 'categories-manager',
-]" routerLinkActive="px-4 py-2 font-medium text-sm whitespace-nowrap border-b-2 border-blue-500 text-blue-600"
+]" routerLinkActive="px-4 py-2 ms-3 font-medium text-sm whitespace-nowrap border-b-2 border-blue-500 text-blue-600"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="px-4 py-2 font-medium text-sm whitespace-nowrap text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white">
+        class="px-4 py-2 font-medium text-sm whitespace-nowrap text-gray-700 dark:text-white">
         Categorías
       </a>
     </li>
@@ -20,7 +37,7 @@
       <a [routerLink]="['/tienda', brand, 'products-manager',
 ]" routerLinkActive="px-4 py-2 font-medium text-sm whitespace-nowrap border-b-2 border-blue-500 text-blue-600"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="px-4 py-2 font-medium text-sm whitespace-nowrap text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white">
+        class="px-4 py-2 font-medium text-sm whitespace-nowrap text-gray-700 dark:text-white">
         Productos
       </a>
     </li>
@@ -28,7 +45,7 @@
       <a [routerLink]="['/tienda', brand, 'variants-products-manager',
 ]" routerLinkActive="px-4 py-2 font-medium text-sm whitespace-nowrap border-b-2 border-blue-500 text-blue-600"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="px-4 py-2 font-medium text-sm whitespace-nowrap text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white">
+        class="px-4 py-2 font-medium text-sm whitespace-nowrap text-gray-700 dark:text-white">
         Variantes
       </a>
     </li>
@@ -36,9 +53,19 @@
       <a [routerLink]="['/tienda', brand, 'config']"
         routerLinkActive="px-4 py-2 font-medium text-sm whitespace-nowrap border-b-2 border-blue-500 text-blue-600"
         [routerLinkActiveOptions]="{ exact: true }"
-        class="px-4 py-2 font-medium text-sm whitespace-nowrap text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white">
+        class="px-4 py-2 font-medium text-sm whitespace-nowrap text-gray-700 dark:text-white">
         Configuración
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/tienda', brand, 'subscription']"
+        routerLinkActive="px-4 py-2 font-medium text-sm whitespace-nowrap border-b-2 border-blue-500 text-blue-600"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="px-4 py-2 font-medium text-sm whitespace-nowrap text-gray-700 dark:text-white">
+        Subscripción
       </a>
     </li>
   </ul>
 </div>
+
+<app-countdown></app-countdown>

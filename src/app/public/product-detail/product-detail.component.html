@@ -1,27 +1,28 @@
-<div class="bg-gradient-to-br from-white to-white dark:from-gray-900 dark:to-gray-800 min-h-screen w-full p-1">
-  <div
-    class="max-w-4xl mx-auto p-6 bg-gradient-to-br from-white to-white dark:from-gray-900 dark:to-gray-800 rounded-xl shadow border border-gray-200 dark:border-gray-700">
+<div class="sm:ml-64">
+  <div class="bg-gradient-to-br from-white to-white dark:from-gray-900 dark:to-gray-800 min-h-screen w-full p-1">
+    <div
+      class="max-w-4xl mx-auto p-6 bg-gradient-to-br from-white to-white dark:from-gray-900 dark:to-gray-800 rounded-xl shadow border border-gray-200 dark:border-gray-700">
 
-    <!-- Botón Volver -->
-    <button (click)="goBack()"
-      class="mb-4 mr-auto flex items-center gap-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300 font-medium px-4 py-2 rounded-lg shadow-sm">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-        stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-      </svg>
-      Volver
-    </button>
+      <!-- Botón Volver -->
+      <button (click)="goBack()"
+        class="mb-4 mr-auto flex items-center gap-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300 font-medium px-4 py-2 rounded-lg shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+        Volver
+      </button>
 
-    <app-spinner *ngIf="loading"></app-spinner>
+      <app-spinner *ngIf="loading"></app-spinner>
 
-    <ng-container *ngIf="product">
-      <div class="grid md:grid-cols-2 gap-6">
+      <ng-container *ngIf="product">
+        <div class="grid md:grid-cols-2 gap-6">
 
-        <!-- Imagen -->
-        <img [src]="product.image_url" alt="{{ product.name }}" class="w-full h-64 object-cover rounded-xl" />
+          <!-- Imagen -->
+          <img [src]="product.image_url" alt="{{ product.name }}" class="w-full h-64 object-cover rounded-xl" />
 
-        <div class="flex flex-col justify-between">
-          <!-- <div>
+          <div class="flex flex-col justify-between">
+            <!-- <div>
             <span class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">{{ product.name }}</span>
 
             <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ product.description }}</p>
@@ -35,151 +36,154 @@
             </p>
           </div> -->
 
-          <div
-            class="sticky top-0 z-10 p-4 bg-gradient-to-br from-white to-white dark:from-gray-900 dark:to-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-md ">
-            <span class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">{{ product.name }}</span>
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ product.description }}</p>
-            <p
-              class="mt-4 text-2xl font-bold bg-gradient-to-r from-blue-400 from-10% to-blue-600 to-90% bg-clip-text text-transparent">
+            <div
+              class="sticky top-0 z-10 p-4 bg-gradient-to-br from-white to-white dark:from-gray-900 dark:to-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-md ">
+              <span class="mt-3 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">{{ product.name
+                }}</span>
+              <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ product.description }}</p>
+              <p
+                class="mt-4 text-2xl font-bold bg-gradient-to-r from-blue-400 from-10% to-blue-600 to-90% bg-clip-text text-transparent">
 
-              {{ calculateTotalPrice() | currency:'$' }}
-              <span *ngIf="calculateTotalPrice() !== product.price * quantity"
-                class="text-sm text-gray-500 dark:text-gray-400 line-through">
-                {{ (product.price * quantity) | currency:'$' }}
-              </span>
-            </p>
-          </div>
-
-
-
-          <div *ngIf="!loading">
-
-            <!-- Variantes -->
-            <div *ngIf="variants.length > 0"
-              class="mt-4 p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800">
-              <div class="my-5">
-                <span
-                  class="float-end text-xs font-medium text-white bg-gradient-to-r from-cyan-700 to-blue-700 rounded-full px-3 py-1">
-                  Obligatorio
+                {{ calculateTotalPrice() | currency:'$' }}
+                <span *ngIf="calculateTotalPrice() !== product.price * quantity"
+                  class="text-sm text-gray-500 dark:text-gray-400 line-through">
+                  {{ (product.price * quantity) | currency:'$' }}
                 </span>
-
-                <span class="mb-5 font-medium text-gray-900 dark:text-white mb-2">Variantes</span>
-              </div>
-              <div class="space-y-2">
-                <div *ngFor="let variant of variants"
-                  class="flex items-center p-3 border rounded-lg cursor-pointer transition-all duration-200"
-                  [class.bg-blue-50]="selectedVariants[variant.id]"
-                  [class.dark:bg-blue-900]="selectedVariants[variant.id]"
-                  [class.border-blue-500]="selectedVariants[variant.id]" (click)="toggleVariant(variant)">
-
-                  <span class="text-gray-800 dark:text-gray-100">{{ variant.name }}</span>
-                  <span class="ml-auto font-medium text-gray-700 dark:text-gray-200">
-                    {{ variant.custom_price | currency:'$' }}
-                  </span>
-                </div>
-              </div>
+              </p>
             </div>
 
-            <!-- Opciones -->
-            <div *ngFor="let choice of choices"
-              class="mt-4 p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800">
-              <div class="my-5">
-                <span
-                  class="float-end text-xs font-medium text-white bg-gradient-to-r from-cyan-700 to-blue-700  rounded-full px-3 py-1">
-                  {{ choice.obligatorio ? 'Obligatorio' : 'Opcional' }}
-                </span>
-                <span class="font-medium text-gray-900 dark:text-white mb-2">{{ choice.name }}</span>
+
+
+            <div *ngIf="!loading">
+
+              <!-- Variantes -->
+              <div *ngIf="variants.length > 0"
+                class="mt-4 p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800">
+                <div class="my-5">
+                  <span
+                    class="float-end text-xs font-medium text-white bg-gradient-to-r from-cyan-700 to-blue-700 rounded-full px-3 py-1">
+                    Obligatorio
+                  </span>
+
+                  <span class="mb-5 font-medium text-gray-900 dark:text-white mb-2">Variantes</span>
+                </div>
+                <div class="space-y-2">
+                  <div *ngFor="let variant of variants"
+                    class="flex items-center p-3 border rounded-lg cursor-pointer transition-all duration-200"
+                    [class.bg-blue-50]="selectedVariants[variant.id]"
+                    [class.dark:bg-blue-900]="selectedVariants[variant.id]"
+                    [class.border-blue-500]="selectedVariants[variant.id]" (click)="toggleVariant(variant)">
+
+                    <span class="text-gray-800 dark:text-gray-100">{{ variant.name }}</span>
+                    <span class="ml-auto font-medium text-gray-700 dark:text-gray-200">
+                      {{ variant.custom_price | currency:'$' }}
+                    </span>
+                  </div>
+                </div>
               </div>
-              <p class="text-xs text-blue-600"
-                [class.text-red-500]="getTotalSelectedForChoice(choice.id) > choice.maxQuantity"
-                *ngIf="choice.maxQuantity && !choice.requerirMaxParaContinuar">Elegí
-                hasta
-                {{choice.maxQuantity}} opciones</p>
 
-              <p class="text-xs text-blue-600"
-                [class.text-red-500]="getTotalSelectedForChoice(choice.id) > choice.maxQuantity || getTotalSelectedForChoice(choice.id) < choice.maxQuantity"
-                *ngIf="choice.maxQuantity && choice.requerirMaxParaContinuar">Elegí
-                {{choice.maxQuantity}} opciones</p>
+              <!-- Opciones -->
+              <div *ngFor="let choice of choices"
+                class="mt-4 p-5 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800">
+                <div class="my-5">
+                  <span
+                    class="float-end text-xs font-medium text-white bg-gradient-to-r from-cyan-700 to-blue-700  rounded-full px-3 py-1">
+                    {{ choice.obligatorio ? 'Obligatorio' : 'Opcional' }}
+                  </span>
+                  <span class="font-medium text-gray-900 dark:text-white mb-2">{{ choice.name }}</span>
+                </div>
+                <p class="text-xs text-blue-600"
+                  [class.text-red-500]="getTotalSelectedForChoice(choice.id) > choice.maxQuantity"
+                  *ngIf="choice.maxQuantity && !choice.requerirMaxParaContinuar">Elegí
+                  hasta
+                  {{choice.maxQuantity}} opciones</p>
 
-              <!-- <span class="text-gray-500">
+                <p class="text-xs text-blue-600"
+                  [class.text-red-500]="getTotalSelectedForChoice(choice.id) > choice.maxQuantity || getTotalSelectedForChoice(choice.id) < choice.maxQuantity"
+                  *ngIf="choice.maxQuantity && choice.requerirMaxParaContinuar">Elegí
+                  {{choice.maxQuantity}} opciones</p>
+
+                <!-- <span class="text-gray-500">
                 ({{ getTotalSelectedForChoice(choice.id) }} seleccionadas) </span> -->
 
-              <!-- <p class="text-sm text-red-600 mt-1" *ngIf="getTotalSelectedForChoice(choice.id) > choice.maxQuantity">
+                <!-- <p class="text-sm text-red-600 mt-1" *ngIf="getTotalSelectedForChoice(choice.id) > choice.maxQuantity">
                 Has superado el máximo permitido de {{ choice.maxQuantity }} opciones. </p> -->
 
-              <div class="space-y-2">
-                <div *ngFor="let option of choice.choice_options"
-                  class="flex items-center p-3 border rounded-lg cursor-pointer select-none transition-all duration-200"
-                  [class.bg-blue-50]="isOptionSelected(choice, option)"
-                  [class.dark:bg-blue-900]="isOptionSelected(choice, option)"
-                  [class.border-blue-500]="isOptionSelected(choice, option)" [class.no-select]="option.stock"
-                  [class.opacity-50]="option.stock" (click)="toggleOption(choice, option)">
+                <div class="space-y-2">
+                  <div *ngFor="let option of choice.choice_options"
+                    class="flex items-center p-3 border rounded-lg cursor-pointer select-none transition-all duration-200"
+                    [class.bg-blue-50]="isOptionSelected(choice, option)"
+                    [class.dark:bg-blue-900]="isOptionSelected(choice, option)"
+                    [class.border-blue-500]="isOptionSelected(choice, option)" [class.no-select]="option.stock"
+                    [class.opacity-50]="option.stock" (click)="toggleOption(choice, option)">
 
-                  <!-- Checkbox múltiple -->
-                  <ng-container *ngIf="choice.seleccion_multiple; else singleSelect">
-                    <mat-checkbox [checked]="isOptionSelected(choice, option)" (click)="$event.stopPropagation()"
-                      class="me-2 dark:text-white">
-                    </mat-checkbox>
-                  </ng-container>
+                    <!-- Checkbox múltiple -->
+                    <ng-container *ngIf="choice.seleccion_multiple; else singleSelect">
+                      <mat-checkbox [checked]="isOptionSelected(choice, option)" (click)="$event.stopPropagation()"
+                        class="me-2 dark:text-white">
+                      </mat-checkbox>
+                    </ng-container>
 
-                  <!-- Radio selección simple -->
-                  <ng-template #singleSelect>
-                    <span class="w-3 h-3 rounded-full border border-gray-400 me-2"
-                      [class.bg-blue-500]="isOptionSelected(choice, option)">
+                    <!-- Radio selección simple -->
+                    <ng-template #singleSelect>
+                      <span class="w-3 h-3 rounded-full border border-gray-400 me-2"
+                        [class.bg-blue-500]="isOptionSelected(choice, option)">
+                      </span>
+                    </ng-template>
+
+                    <!-- Nombre -->
+                    <span class="flex-1 text-gray-800 dark:text-gray-100">{{ option.name }}</span>
+
+                    <!-- Contador -->
+                    <span *ngIf="option.counter && isOptionSelected(choice, option)"
+                      class="flex items-center gap-2 mr-2">
+                      <button (click)="updateCounter(choice.id, option.id, -1); $event.stopPropagation()"
+                        class="px-2 bg-gray-200 dark:bg-gray-700 dark:text-white rounded text-sm">-</button>
+                      <span class="text-gray-900 dark:text-white">{{ getOptionQuantity(choice.id, option.id) }}</span>
+                      <button (click)="updateCounter(choice.id, option.id, 1); $event.stopPropagation()"
+                        class="px-2 bg-gray-200 dark:bg-gray-700 dark:text-white rounded text-sm">+</button>
                     </span>
-                  </ng-template>
 
-                  <!-- Nombre -->
-                  <span class="flex-1 text-gray-800 dark:text-gray-100">{{ option.name }}</span>
+                    <!-- Precio -->
+                    <span *ngIf="option.price > 0" class="ml-auto font-medium text-gray-800 dark:text-gray-200">
+                      +{{ option.price | currency:'$' }}
+                    </span>
 
-                  <!-- Contador -->
-                  <span *ngIf="option.counter && isOptionSelected(choice, option)" class="flex items-center gap-2 mr-2">
-                    <button (click)="updateCounter(choice.id, option.id, -1); $event.stopPropagation()"
-                      class="px-2 bg-gray-200 dark:bg-gray-700 dark:text-white rounded text-sm">-</button>
-                    <span class="text-gray-900 dark:text-white">{{ getOptionQuantity(choice.id, option.id) }}</span>
-                    <button (click)="updateCounter(choice.id, option.id, 1); $event.stopPropagation()"
-                      class="px-2 bg-gray-200 dark:bg-gray-700 dark:text-white rounded text-sm">+</button>
-                  </span>
-
-                  <!-- Precio -->
-                  <span *ngIf="option.price > 0" class="ml-auto font-medium text-gray-800 dark:text-gray-200">
-                    +{{ option.price | currency:'$' }}
-                  </span>
-
-                  <!-- Sin stock -->
-                  <span *ngIf="option.stock === true" class="ms-2 text-xs text-red-600">Sin stock</span>
+                    <!-- Sin stock -->
+                    <span *ngIf="option.stock === true" class="ms-2 text-xs text-red-600">Sin stock</span>
+                  </div>
                 </div>
               </div>
             </div>
+
+            <!-- Alerta variantes -->
+            <br>
+            <p *ngIf="variants.length > 0 && !canAddToCart()" class="text-xs text-gray-900 dark:text-gray-200 mt-5">
+              Por favor, completá las opciones obligatorias y respetá los límites de selección.
+            </p>
+
+            <!-- Observación -->
+            <div class="mt-4">
+              <label for="observation" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
+                Observación para el pedido (opcional)
+              </label>
+              <textarea id="observation" [(ngModel)]="observation" rows="3" maxlength="150"
+                placeholder="Ejemplo: sin cebolla, bien cocido, etc."
+                class="border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 p-4 w-full rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm outline-none"></textarea>
+            </div>
+
+            <!-- Botón agregar -->
+            <button *ngIf="(!configService.isOpen() || !configService.cerradoTemporalmente)" (click)="addToCart()"
+              [disabled]="!canAddToCart()"
+              class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-xl transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
+              Agregar al carrito
+            </button>
           </div>
-
-          <!-- Alerta variantes -->
-          <br>
-          <p *ngIf="variants.length > 0 && !canAddToCart()" class="text-xs text-gray-900 dark:text-gray-200 mt-5">
-            Por favor, completá las opciones obligatorias y respetá los límites de selección.
-          </p>
-
-          <!-- Observación -->
-          <div class="mt-4">
-            <label for="observation" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-              Observación para el pedido (opcional)
-            </label>
-            <textarea id="observation" [(ngModel)]="observation" rows="3" maxlength="150"
-              placeholder="Ejemplo: sin cebolla, bien cocido, etc."
-              class="border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 p-4 w-full rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm outline-none"></textarea>
-          </div>
-
-          <!-- Botón agregar -->
-          <button (click)="addToCart()" [disabled]="!canAddToCart()"
-            class="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-xl transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed">
-            Agregar al carrito
-          </button>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
+    </div>
   </div>
 </div>
-
 
 
 <!-- <div class="bg-white dark:bg-gray-900 h-full w-full">

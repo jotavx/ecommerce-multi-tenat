@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class EditProfileDialogComponent {
   form: FormGroup;
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -17,12 +18,13 @@ export class EditProfileDialogComponent {
   ) {
     this.form = this.fb.group({
       nombre: [data.nombre, Validators.required],
-      telefono: [data.telefono],
-      direccion: [data.direccion],
+      telefono: [data.telefono, Validators.required],
+      // direccion: [data.direccion],
     });
   }
 
   onSave() {
+    this.submitted = true;
     if (this.form.valid) {
       this.dialogRef.close(this.form.value);
     }

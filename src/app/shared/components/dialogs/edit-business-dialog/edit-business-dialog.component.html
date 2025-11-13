@@ -4,23 +4,38 @@
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Nombre Negocio</mat-label>
       <input matInput maxlength="25" formControlName="nombre_negocio" />
+      <mat-error *ngIf="submitted && form.get('nombre_negocio')?.hasError('required')">
+        Este campo es obligatorio
+      </mat-error>
     </mat-form-field>
 
-    <!-- //NEW -->
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Slug del negocio</mat-label>
       <input matInput maxlength="25" formControlName="brand" />
+      <mat-error *ngIf="submitted && form.get('brand')?.hasError('required')">
+        Este campo es obligatorio
+      </mat-error>
     </mat-form-field>
-    <!-- //NEW -->
 
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Teléfono</mat-label>
       <input matInput formControlName="telefono" />
+      <mat-error *ngIf="submitted && form.get('telefono')?.hasError('required')">
+        Este campo es obligatorio
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Email</mat-label>
       <input matInput formControlName="email" />
+      <mat-error *ngIf="submitted && form.get('email')?.hasError('required')">
+        Este campo es obligatorio
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Dirección</mat-label>
+      <input matInput formControlName="direccion" />
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="w-full">
@@ -38,11 +53,12 @@
       <input matInput formControlName="alias_negocio" />
     </mat-form-field>
   </form>
+
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <div mat-dialog-actions align="end">
     <button mat-stroked-button (click)="onCancel()">Cancelar</button>
-    <button mat-stroked-button color="primary" (click)="onSave()">Aceptar</button>
+    <button mat-flat-button color="primary" (click)="onSave()">Aceptar</button>
   </div>
 </mat-dialog-actions>

@@ -1,34 +1,33 @@
-<div class="bg-gradient-to-br from-white to-white dark:from-gray-900 dark:to-gray-800 min-h-screen">
-  <div *ngIf="businesses.length > 0" class="text-3xl font-extrabold text-gray-900 dark:text-white text-center p-10">
-    Negocios disponibles
-  </div>
+<div class="sm:ml-64">
+  <div class="bg-gradient-to-br from-white to-white dark:from-gray-900 dark:to-gray-800 min-h-screen">
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
-    <div *ngFor="let business of businesses"
-      class="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg transition-shadow flex flex-col items-center justify-between py-6 px-4 text-center space-y-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
+      <div *ngFor="let business of businesses"
+        class="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg transition-shadow flex flex-col items-center justify-between py-6 px-4 text-center space-y-4">
 
-      <!-- Logo -->
-      <img *ngIf="business.logo_url" [src]="business.logo_url" alt="Logo"
-        class="w-24 h-24 object-contain rounded-full border border-gray-300 dark:border-gray-600 shadow-sm" />
+        <!-- Logo -->
+        <img *ngIf="business.logo_url" [src]="business.logo_url" alt="Logo"
+          class="w-24 h-24 object-contain rounded-full border border-gray-300 dark:border-gray-600 shadow-sm" />
 
-      <!-- Nombre del negocio -->
-      <h2 class="text-xl font-bold text-gray-900 dark:text-white">{{ business.nombre_negocio }}</h2>
+        <!-- Nombre del negocio -->
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white">{{ business.nombre_negocio }}</h2>
 
-      <!-- Descripción -->
-      <p class="text-sm text-gray-600 dark:text-gray-300">{{ business.descripcion }}</p>
+        <!-- Descripción -->
+        <p class="text-sm text-gray-600 dark:text-gray-300">{{ business.descripcion }}</p>
 
-      <!-- Contacto -->
-      <div class="text-sm text-gray-700 dark:text-gray-300">
-        <p *ngIf="business.telefono"><strong>Tel:</strong> {{ business.telefono }}</p>
-        <p *ngIf="business.email"><strong>Email:</strong> {{ business.email }}</p>
+        <!-- Contacto -->
+        <div class="text-sm text-gray-700 dark:text-gray-300">
+          <p *ngIf="business.telefono"><strong>Tel:</strong> {{ business.telefono }}</p>
+          <p *ngIf="business.email"><strong>Email:</strong> {{ business.email }}</p>
+        </div>
+
+        <!-- Enlace a la tienda -->
+        <a [routerLink]="['/tienda', business.brand]"
+          class="inline-block mt-4 text-blue-600 hover:text-blue-800 font-semibold transition-colors">
+          /{{ business.brand }}
+        </a>
       </div>
-
-      <!-- Enlace a la tienda -->
-      <a [routerLink]="['/tienda', business.brand]"
-        class="inline-block mt-4 text-blue-600 hover:text-blue-800 font-semibold transition-colors">
-        /{{ business.brand }}
-      </a>
     </div>
-  </div>
 
+  </div>
 </div>

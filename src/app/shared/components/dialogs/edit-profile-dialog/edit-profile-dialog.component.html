@@ -4,23 +4,29 @@
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Nombre</mat-label>
       <input matInput maxlength="25" formControlName="nombre" />
+      <mat-error *ngIf="submitted && form.get('nombre')?.hasError('required')">
+        Este campo es obligatorio
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Teléfono</mat-label>
       <input matInput formControlName="telefono" />
+      <mat-error *ngIf="submitted && form.get('telefono')?.hasError('required')">
+        Este campo es obligatorio
+      </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" class="w-full">
+    <!-- <mat-form-field appearance="fill" class="w-full">
       <mat-label>Dirección</mat-label>
       <input matInput formControlName="direccion" />
     </mat-form-field>
   </form>
-</mat-dialog-content>
+</mat-dialog-content> -->
 
-<mat-dialog-actions align="end">
-  <div mat-dialog-actions align="end">
-    <button mat-stroked-button (click)="onCancel()">Cancelar</button>
-    <button mat-stroked-button color="primary" (click)="onSave()">Aceptar</button>
-  </div>
-</mat-dialog-actions>
+    <mat-dialog-actions align="end">
+      <div mat-dialog-actions align="end">
+        <button mat-stroked-button (click)="onCancel()">Cancelar</button>
+        <button mat-flat-button color="primary" (click)="onSave()">Aceptar</button>
+      </div>
+    </mat-dialog-actions>

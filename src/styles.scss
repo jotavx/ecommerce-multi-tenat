@@ -20,9 +20,36 @@ $dark-theme: mat.define-dark-theme(
   )
 );
 
-/* Se aplicará a body y overlay con la clase dark */
+// /* Se aplicará a body y overlay con la clase dark */
+// .dark {
+//   @include mat.all-component-colors($dark-theme);
+// }
+
 .dark {
   @include mat.all-component-colors($dark-theme);
+
+  // Sobrescribe solo el fondo de los diálogos
+  .mat-mdc-dialog-container {
+    --mdc-dialog-container-color: #171f2d;
+  }
+
+  /* Fondo de los inputs */
+  .mat-mdc-text-field-wrapper {
+    background-color: #374151 !important;
+  }
+
+  /* Texto de los inputs */
+  .mat-mdc-input-element,
+  .mat-mdc-form-field-label {
+    color: #ffffff !important;
+  }
+
+  /* Fondo del accordion y expansion panel */
+  .mat-accordion .mat-expansion-panel,
+  .mat-expansion-panel {
+    background-color: #171f2d !important;
+    color: white !important;
+  }
 }
 
 body {

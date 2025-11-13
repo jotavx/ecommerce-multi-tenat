@@ -5,31 +5,51 @@ import { SupabaseService } from './supabase.service';
 @Injectable({ providedIn: 'root' })
 export class MetodosPagoService {
   private supabase: SupabaseClient;
-  metodos: { [key: string]: boolean } = {};
+  metodos: { name: string; label: string; active: boolean }[] = [];
 
   constructor(private supabaseService: SupabaseService) {
     this.supabase = this.supabaseService.getClient();
   }
 
   async getMetodosDePago(businessId: string | null) {
-    const { data, error } = await this.supabase
+    const { data: disponibles, error: errorDisponibles } = await this.supabase
+      .from('metodos_pago_disponibles')
+      .select('*');
+
+    const { data: activos, error: errorActivos } = await this.supabase
       .from('metodos_pago')
       .select('*')
       .eq('business_id', businessId);
 
-    if (!error && data) {
-      this.metodos = {};
-      data.forEach((m: any) => {
-        this.metodos[m.name] = m.active;
-      });
-    } else {
-      console.error('Error al obtener métodos de pago:', error?.message);
+    if (errorDisponibles || errorActivos) {
+      console.error(
+        'Error al obtener métodos:',
+        errorDisponibles || errorActivos
+      );
+      return;
     }
+
+    this.metodos = disponibles.map((m) => {
+      const activo = activos.find((a) => a.name === m.name);
+      return {
+        name: m.name,
+        label: m.label,
+        active: activo ? activo.active : false,
+      };
+    });
+  }
+
+  getMetodosActivos(): { name: string; label: string }[] {
+    return this.metodos
+      .filter((m) => m.active)
+      .map((m) => ({ name: m.name, label: m.label }));
   }
 
   async toggleMetodo(name: string, businessId: string | null) {
-    const currentState = this.metodos[name] ?? false;
-    const nuevoEstado = !currentState;
+    const metodo = this.metodos.find((m) => m.name === name);
+    if (!metodo) return;
+
+    const nuevoEstado = !metodo.active;
 
     const { data, error } = await this.supabase
       .from('metodos_pago')
@@ -44,11 +64,11 @@ export class MetodosPagoService {
         .insert([{ name, business_id: businessId, active: true }]);
 
       if (insertError) {
-        console.error('No se pudo insertar:', insertError.message);
+        console.error('Error al insertar método:', insertError.message);
         return;
       }
 
-      this.metodos[name] = true;
+      metodo.active = true;
       return;
     }
 
@@ -59,10 +79,10 @@ export class MetodosPagoService {
       .eq('business_id', businessId);
 
     if (updateError) {
-      console.error('No se pudo actualizar:', updateError.message);
+      console.error('Error al actualizar método:', updateError.message);
       return;
     }
 
-    this.metodos[name] = nuevoEstado;
+    metodo.active = nuevoEstado;
   }
 }

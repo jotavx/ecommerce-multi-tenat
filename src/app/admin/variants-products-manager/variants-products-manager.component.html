@@ -1,55 +1,80 @@
-<div class="w-full min-h-screen bg-gradient-to-br from-white to-white dark:from-gray-900 dark:to-gray-800">
-  <div class="w-full sm:w-9/12 mx-auto p-1 sm:p-6 rounded-xl ">
-    <app-spinner *ngIf="loading"></app-spinner>
+<div class="sm:ml-64">
+  <app-dashboard></app-dashboard>
+  <div class="w-full min-h-screen bg-gradient-to-br from-white to-white dark:from-gray-900 dark:to-gray-800">
+    <div class="w-full sm:w-9/12 mx-auto p-1 sm:p-6 rounded-xl ">
+      <app-spinner *ngIf="loading"></app-spinner>
 
-    <div class="mb-10">
+      <div class="mb-10">
 
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold p-3 text-gray-800 dark:text-white">
-          {{ selectedProductId ? 'Asignación de Variantes y Opciones' : 'Administrar Variantes y Opciones' }}
-        </h2>
-        <button *ngIf="selectedProductId" (click)="goBack()"
-          class="flex items-center gap-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-gray-700 dark:text-gray-200 font-medium px-4 py-2 rounded-lg">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-            stroke="currentColor" class="size-4 text-gray-700 dark:text-gray-200">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-          </svg>
-          Volver
-        </button>
-      </div>
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold p-3 text-gray-800 dark:text-white">
+            {{ selectedProductId ? 'Asignación de Variantes y Opciones' : 'Administrar Variantes y Opciones' }}
+          </h2>
+          <button *ngIf="selectedProductId" (click)="goBack()"
+            class="flex items-center gap-1 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-gray-700 dark:text-gray-200 font-medium px-4 py-2 rounded-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-4 text-gray-700 dark:text-gray-200">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+            </svg>
+            Volver
+          </button>
+        </div>
 
-      <div *ngIf="selectedProductId" class="mb-8 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
-        <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
-          Producto: {{ productName }}
-        </h2>
-      </div>
+        <div *ngIf="selectedProductId" class="mb-8 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
+          <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+            Producto: {{ productName }}
+          </h2>
+        </div>
 
 
-      <section *ngIf="selectedProductId && assignedVariants.length > 0" class="mb-8">
-        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Variantes asignadas</h2>
-        <div class="space-y-3">
-          <div *ngFor="let variant of assignedVariants"
-            class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-100 dark:border-gray-700">
-            <div class="flex justify-between items-center">
-              <div>
-                <h3 class="text-lg font-semibold text-gray-800  dark:text-gray-100">{{ variant.name }}</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400">
-                  Precio: {{ variant.custom_price || variant.price | currency }}
-                </p>
+        <section *ngIf="selectedProductId && assignedVariants.length > 0" class="mb-8">
+          <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Variantes asignadas</h2>
+          <div class="space-y-3">
+            <div *ngFor="let variant of assignedVariants"
+              class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-100 dark:border-gray-700">
+              <div class="flex justify-between items-center">
+                <div>
+                  <h3 class="text-lg font-semibold text-gray-800  dark:text-gray-100">{{ variant.name }}</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Precio: {{ variant.custom_price || variant.price | currency }}
+                  </p>
+                </div>
+                <div class="flex gap-2">
+                  <button (click)="updateVariantPrice(variant)"
+                    class="p-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+                    aria-label="Editar precio">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                  </button>
+                  <button (click)="unassignVariant(variant.id)"
+                    class="p-2 text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+                    aria-label="Desasignar variante">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
               </div>
-              <div class="flex gap-2">
-                <button (click)="updateVariantPrice(variant)"
-                  class="p-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
-                  aria-label="Editar precio">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                  </svg>
-                </button>
-                <button (click)="unassignVariant(variant.id)"
+            </div>
+          </div>
+        </section>
+        <section *ngIf="selectedProductId && assignedChoices.length > 0" class="mb-8">
+          <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Opciones asignadas</h2>
+          <div class="space-y-3">
+            <div *ngFor="let choice of assignedChoices"
+              class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-100 dark:border-gray-700">
+              <div class="flex justify-between items-center">
+                <div>
+                  <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">{{ choice.name }}</h3>
+                </div>
+                <button (click)="unassignChoice(choice.id)"
                   class="p-2 text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
-                  aria-label="Desasignar variante">
+                  aria-label="Desasignar opción">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -59,249 +84,230 @@
               </div>
             </div>
           </div>
-        </div>
-      </section>
-      <section *ngIf="selectedProductId && assignedChoices.length > 0" class="mb-8">
-        <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Opciones asignadas</h2>
-        <div class="space-y-3">
-          <div *ngFor="let choice of assignedChoices"
-            class="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-100 dark:border-gray-700">
-            <div class="flex justify-between items-center">
-              <div>
-                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100">{{ choice.name }}</h3>
-              </div>
-              <button (click)="unassignChoice(choice.id)"
-                class="p-2 text-gray-600 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
-                aria-label="Desasignar opción">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                  stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </button>
-            </div>
+        </section>
+        <section class="mb-10">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Variantes disponibles</h2>
+            <button *ngIf="!selectedProductId" (click)="openVariantDialog()"
+              class="inline-flex items-center gap-1 px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Nueva variante
+            </button>
           </div>
-        </div>
-      </section>
-      <section class="mb-10">
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Variantes disponibles</h2>
-          <button *ngIf="!selectedProductId" (click)="openVariantDialog()"
-            class="inline-flex items-center gap-1 px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-            Nueva variante
-          </button>
-        </div>
 
-        <div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 rounded-lg">
-          <table class="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
-            <thead class="bg-gray-50 dark:bg-gray-800">
-              <tr>
-                <th scope="col"
-                  class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-white sm:pl-6">
-                  Nombre
-                </th>
-                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                  <span class="sr-only">Acciones</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
-              <tr *ngFor="let variant of paginatedVariants"
-                class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                <td
-                  class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-100 sm:pl-6">
-                  {{ variant.name }}
-                </td>
-                <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 space-x-2">
-                  <button *ngIf="!selectedProductId" (click)="openVariantDialog(variant)"
-                    class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
-                    aria-label="Editar variante">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                      stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          <div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 rounded-lg">
+            <table class="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
+              <thead class="bg-gray-50 dark:bg-gray-800">
+                <tr>
+                  <th scope="col"
+                    class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-white sm:pl-6">
+                    Nombre
+                  </th>
+                  <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                    <span class="sr-only">Acciones</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
+                <tr *ngFor="let variant of paginatedVariants"
+                  class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                  <td
+                    class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-100 sm:pl-6">
+                    {{ variant.name }}
+                  </td>
+                  <td
+                    class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 space-x-2">
+                    <button *ngIf="!selectedProductId" (click)="openVariantDialog(variant)"
+                      class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                      aria-label="Editar variante">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                    </button>
+                    <button *ngIf="!selectedProductId" (click)="deleteVariant(variant.id)"
+                      class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                      aria-label="Eliminar variante">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                    <ng-container *ngIf="selectedProductId">
+                      <button *ngIf="!isVariantAssigned(variant.id)" (click)="assignVariant(variant.id)"
+                        class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 px-3 py-1 rounded-md bg-blue-50 dark:bg-blue-900 hover:bg-blue-100 dark:hover:bg-blue-800">
+                        Asignar
+                      </button>
+                      <button *ngIf="isVariantAssigned(variant.id)" (click)="unassignVariant(variant.id)"
+                        class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 px-3 py-1 rounded-md bg-red-50 dark:bg-red-900 hover:bg-red-100 dark:hover:bg-red-800">
+                        Desasignar
+                      </button>
+                    </ng-container>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <nav class="flex items-center flex-row justify-end p-5" aria-label="Table navigation">
+              <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
+                <li>
+                  <button (click)="prevVariantPage()" [disabled]="variantsPage === 1"
+                    class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><svg
+                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="size-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
                   </button>
-                  <button *ngIf="!selectedProductId" (click)="deleteVariant(variant.id)"
-                    class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
-                    aria-label="Eliminar variante">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                      stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </li>
+                <li>
+                  <span href="#"
+                    class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ">{{variantsPage}}
+                    de {{totalVariantsPages}}</span>
+                </li>
+                <li>
+                  <button (click)="nextVariantPage()" [disabled]="variantsPage === totalVariantsPages"
+                    class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><svg
+                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="size-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                     </svg>
                   </button>
-                  <ng-container *ngIf="selectedProductId">
-                    <button *ngIf="!isVariantAssigned(variant.id)" (click)="assignVariant(variant.id)"
-                      class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 px-3 py-1 rounded-md bg-blue-50 dark:bg-blue-900 hover:bg-blue-100 dark:hover:bg-blue-800">
-                      Asignar
-                    </button>
-                    <button *ngIf="isVariantAssigned(variant.id)" (click)="unassignVariant(variant.id)"
-                      class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 px-3 py-1 rounded-md bg-red-50 dark:bg-red-900 hover:bg-red-100 dark:hover:bg-red-800">
-                      Desasignar
-                    </button>
-                  </ng-container>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <nav class="flex items-center flex-row justify-end p-5" aria-label="Table navigation">
-            <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
-              <li>
-                <button (click)="prevVariantPage()" [disabled]="variantsPage === 1"
-                  class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><svg
-                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                  </svg>
-                </button>
-              </li>
-              <li>
-                <span href="#"
-                  class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ">{{variantsPage}}
-                  de {{totalVariantsPages}}</span>
-              </li>
-              <li>
-                <button (click)="nextVariantPage()" [disabled]="variantsPage === totalVariantsPages"
-                  class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><svg
-                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                  </svg>
-                </button>
-              </li>
-            </ul>
-          </nav>
-        </div>
+                </li>
+              </ul>
+            </nav>
+          </div>
 
-      </section>
-      <section>
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Opciones disponibles</h2>
-          <button *ngIf="!selectedProductId" (click)="openChoiceDialog()"
-            class="inline-flex items-center gap-1 px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-            Nueva opción
-          </button>
-        </div>
+        </section>
+        <section>
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Opciones disponibles</h2>
+            <button *ngIf="!selectedProductId" (click)="openChoiceDialog()"
+              class="inline-flex items-center gap-1 px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Nueva opción
+            </button>
+          </div>
 
-        <div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 rounded-lg">
-          <table class="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
-            <thead class="bg-gray-50 dark:bg-gray-800">
-              <tr>
-                <th scope="col"
-                  class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-white sm:pl-6">
-                  Nombre
-                </th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
-                  Opciones
-                </th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
-                  Precio
-                </th>
-                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                  <span class="sr-only">Acciones</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
-              <tr *ngFor="let choice of paginatedChoices"
-                class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-                <td
-                  class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-100 sm:pl-6">
-                  {{ choice.name }}
-                </td>
+          <div class="overflow-x-auto shadow ring-1 ring-black ring-opacity-5 rounded-lg">
+            <table class="min-w-full divide-y divide-gray-300 dark:divide-gray-700">
+              <thead class="bg-gray-50 dark:bg-gray-800">
+                <tr>
+                  <th scope="col"
+                    class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 dark:text-white sm:pl-6">
+                    Nombre
+                  </th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                    Opciones
+                  </th>
+                  <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 dark:text-white">
+                    Precio
+                  </th>
+                  <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                    <span class="sr-only">Acciones</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
+                <tr *ngFor="let choice of paginatedChoices"
+                  class="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                  <td
+                    class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 dark:text-gray-100 sm:pl-6">
+                    {{ choice.name }}
+                  </td>
 
-                <td class="px-3 py-4 text-sm text-gray-500 dark:text-gray-300">
-                  <ul class="space-y-1">
+                  <td class="px-3 py-4 text-sm text-gray-500 dark:text-gray-300">
+                    <ul class="space-y-1">
+                      <li *ngFor="let opt of choice.choice_options" class="flex justify-between">
+                        <span class="flex items-center" [ngClass]="{'line-through': opt.stock}">
+                          <svg class="w-3 h-3 mr-1 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                            </path>
+                          </svg>
+                          {{ opt.name }}
+                          <!-- <span *ngIf="opt.stock" class="ms-2 text-red-600 dark:text-red-400 text-xs">Sin stock</span> -->
+                        </span>
+
+                      </li>
+                    </ul>
+                  </td>
+                  <td>
                     <li *ngFor="let opt of choice.choice_options" class="flex justify-between">
-                      <span class="flex items-center" [ngClass]="{'line-through': opt.stock}">
-                        <svg class="w-3 h-3 mr-1 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                        {{ opt.name }}
-                        <!-- <span *ngIf="opt.stock" class="ms-2 text-red-600 dark:text-red-400 text-xs">Sin stock</span> -->
-                      </span>
-
+                      <span class="text-xs font-medium text-blue-500 dark:text-blue-400">{{ opt.price | currency
+                        }}</span>
                     </li>
-                  </ul>
-                </td>
-                <td>
-                  <li *ngFor="let opt of choice.choice_options" class="flex justify-between">
-                    <span class="text-xs font-medium text-blue-500 dark:text-blue-400">{{ opt.price | currency
-                      }}</span>
-                  </li>
-                </td>
+                  </td>
 
-                <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 space-x-2">
-                  <button *ngIf="!selectedProductId" (click)="openChoiceDialog(choice)"
-                    class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
-                    aria-label="Editar opción">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                      stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  <td
+                    class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 space-x-2">
+                    <button *ngIf="!selectedProductId" (click)="openChoiceDialog(choice)"
+                      class="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                      aria-label="Editar opción">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                    </button>
+                    <button *ngIf="!selectedProductId" (click)="deleteChoice(choice.id)"
+                      class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                      aria-label="Eliminar opción">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                    <ng-container *ngIf="selectedProductId">
+                      <button *ngIf="!isChoiceAssigned(choice.id)" (click)="assignChoice(choice.id)"
+                        class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 px-3 py-1 rounded-md bg-blue-50 dark:bg-blue-900 hover:bg-blue-100 dark:hover:bg-blue-800">
+                        Asignar
+                      </button>
+                      <button *ngIf="isChoiceAssigned(choice.id)" (click)="unassignChoice(choice.id)"
+                        class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 px-3 py-1 rounded-md bg-red-50 dark:bg-red-900 hover:bg-red-100 dark:hover:bg-red-800">
+                        Desasignar
+                      </button>
+                    </ng-container>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <nav class="flex items-center flex-row justify-end p-5" aria-label="Table navigation">
+              <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
+                <li>
+                  <button (click)="prevChoicesPage()" [disabled]="choicesPage === 1"
+                    class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><svg
+                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="size-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
                   </button>
-                  <button *ngIf="!selectedProductId" (click)="deleteChoice(choice.id)"
-                    class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
-                    aria-label="Eliminar opción">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                      stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </li>
+                <li>
+                  <span href="#"
+                    class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ">{{choicesPage}}
+                    de {{totalChoicesPages}}</span>
+                </li>
+                <li>
+                  <button (click)="nextChoicePage()" [disabled]="choicesPage === totalChoicesPages"
+                    class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><svg
+                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="size-6">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                     </svg>
                   </button>
-                  <ng-container *ngIf="selectedProductId">
-                    <button *ngIf="!isChoiceAssigned(choice.id)" (click)="assignChoice(choice.id)"
-                      class="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 px-3 py-1 rounded-md bg-blue-50 dark:bg-blue-900 hover:bg-blue-100 dark:hover:bg-blue-800">
-                      Asignar
-                    </button>
-                    <button *ngIf="isChoiceAssigned(choice.id)" (click)="unassignChoice(choice.id)"
-                      class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300 px-3 py-1 rounded-md bg-red-50 dark:bg-red-900 hover:bg-red-100 dark:hover:bg-red-800">
-                      Desasignar
-                    </button>
-                  </ng-container>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <nav class="flex items-center flex-row justify-end p-5" aria-label="Table navigation">
-            <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
-              <li>
-                <button (click)="prevChoicesPage()" [disabled]="choicesPage === 1"
-                  class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><svg
-                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                  </svg>
-                </button>
-              </li>
-              <li>
-                <span href="#"
-                  class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ">{{choicesPage}}
-                  de {{totalChoicesPages}}</span>
-              </li>
-              <li>
-                <button (click)="nextChoicePage()" [disabled]="choicesPage === totalChoicesPages"
-                  class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><svg
-                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                  </svg>
-                </button>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </section>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </section>
+      </div>
     </div>
   </div>
 </div>

@@ -8,12 +8,10 @@ import { NotificationService } from '../../../../core/services/notification.serv
 })
 export class AdminNotificationsComponent {
   hayPedidosPendientes = false;
-
   constructor(private notificationService: NotificationService) {}
-
   ngOnInit() {
-    this.notificationService.pendingOrders$.subscribe((pedidos) => {
-      this.hayPedidosPendientes = pedidos.length > 0;
+    this.notificationService.pendingOrdersCount$.subscribe((pedidos) => {
+      this.hayPedidosPendientes = pedidos > 0;
     });
   }
 }

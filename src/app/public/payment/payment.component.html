@@ -1,0 +1,154 @@
+<div class="sm:ml-64">
+  <app-dashboard></app-dashboard>
+  <app-spinner *ngIf="loading"></app-spinner>
+  <div *ngIf="isActive && subscriptionExpiresAt"
+    class="min-h-screen flex items-start justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 px-4 py-8">
+    <div class="w-full max-w-lg mx-auto">
+      <div
+        class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl shadow-xl rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-2xl">
+        <div class="bg-gradient-to-r from-green-500 to-emerald-600 px-8 py-6 text-center relative">
+          <h2 class="text-3xl font-bold text-white tracking-tight">¡Gracias por suscribirte!</h2>
+          <p class="mt-1 text-green-100 text-sm">Tenés acceso completo a <strong>PediloApp</strong></p>
+        </div>
+        <div class="p-6 space-y-4 text-center text-sm text-gray-700 dark:text-gray-200">
+
+          <div class="flex flex-col items-center gap-2">
+            <svg class="w-10 h-10 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                d="M16.707 5.293a1 1 0 00-1.414 0L9 11.586 6.707 9.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7a1 1 0 000-1.414z"
+                clip-rule="evenodd" />
+            </svg>
+            <p class="text-lg font-semibold">Tu suscripción vence el:</p>
+            <p class="text-base font-bold text-gray-900 dark:text-white">
+              {{ subscriptionExpiresAt | date: 'dd/MM/yyyy' }}
+            </p>
+          </div>
+
+
+          <div class="space-y-3 text-xs text-gray-600 dark:text-gray-400 mt-6 text-left">
+
+            <div class="flex items-start gap-2">
+              <p><strong>La suscripción no se renueva automáticamente.</strong> Te avisaremos para que la renueves.</p>
+            </div>
+
+            <div class="flex items-start gap-2">
+              <p>Al suscribirte aceptaste nuestros <a href="#"
+                  class="underline text-blue-600 dark:text-blue-400">términos
+                  y condiciones</a>.</p>
+            </div>
+          </div>
+
+          <p class="text-center text-xs text-gray-500 dark:text-gray-400 mt-6">Gracias por elegirnos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div *ngIf="!isActive"
+    class="min-h-screen flex items-start justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 px-4 py-8">
+    <div class="w-full max-w-lg mx-auto">
+
+
+      <div
+        class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl shadow-xl rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-2xl">
+
+
+        <div class="bg-gradient-to-r from-blue-500 to-indigo-600 px-8 py-6 text-center relative">
+          <h2 class="text-3xl font-bold text-white tracking-tight">Suscribite a <span
+              class=" decoration-white/40">PediloApp</span></h2>
+          <p class="mt-1 text-blue-100 text-sm">Llevá tu negocio al siguiente nivel</p>
+
+        </div>
+
+
+        <div *ngIf="loading" class="p-6 text-center">
+          <div class="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+            <svg class="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.4 0 0 5.4 0 12h4z">
+              </path>
+            </svg>
+            <span class="text-sm">Generando link de pago...</span>
+          </div>
+        </div>
+
+
+        <div *ngIf="error" class="p-6 text-center">
+          <div
+            class="inline-flex items-center gap-2 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-sm px-4 py-2 rounded-lg">
+            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v4a1 1 0 002 0V7zm-1 8a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"
+                clip-rule="evenodd" />
+            </svg>
+            {{ error }}
+          </div>
+        </div>
+        <div class="space-y-3 text-xs text-gray-600 dark:text-gray-400 mt-6">
+          <div class="flex flex-col items-center gap-2">
+            <img src="../../../assets/mercado-pago.png" alt="mercado pago logo" class="h-12 w-18 ">
+            <p><strong>Pagás con Mercado Pago</strong> de forma segura, con todos los medios habilitados.</p>
+          </div>
+        </div>
+
+        <div class="p-6 space-y-4">
+
+          <button *ngFor="let plan of plans" (click)="pagar(plan.value)" [disabled]="loading" class="group w-full px-6 py-4 border border-gray-300 dark:border-gray-600 rounded-xl shadow-md hover:shadow-lg transition duration-300 flex flex-col gap-3 text-left
+         bg-white dark:bg-gray-800
+         hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50
+         dark:hover:from-blue-900/20 dark:hover:to-indigo-900/30">
+
+            <!-- Título y descripción -->
+            <div class="flex flex-col">
+              <span class="text-lg font-semibold text-gray-900 dark:text-white">{{ plan.name }}</span>
+              <span class="text-sm text-gray-500 dark:text-gray-300">{{ plan.description }}</span>
+            </div>
+
+            <!-- Precio y descuento + ícono -->
+            <div class="flex flex-row items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span
+                  class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-100">
+                  ${{ plan.price }} /{{ plan.frequency }}
+                </span>
+                <span *ngIf="plan.discount" class="text-xs font-bold bg-green-600 text-white px-2 py-1 rounded-md">
+                  {{ plan.discount }}% OFF
+                </span>
+              </div>
+
+              <svg class="w-5 h-5 text-blue-600 group-hover:translate-x-1 transition-transform duration-200"
+                fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clip-rule="evenodd" />
+              </svg>
+            </div>
+          </button>
+
+
+
+          <div class="space-y-3 text-xs text-gray-600 dark:text-gray-400 mt-6">
+
+
+            <div class="flex items-start gap-2">
+
+              <p><strong>La suscripción no se renueva automáticamente.</strong> Vas a recibir un aviso para renovarla
+                manualmente.</p>
+            </div>
+
+            <div class="flex items-start gap-2">
+
+              <p>Al aceptar el pago estás de acuerdo con nuestros <a href="#"
+                  class="underline text-blue-600 dark:text-blue-400">términos y condiciones</a>.</p>
+            </div>
+          </div>
+
+          <p class="text-center text-xs text-gray-500 dark:text-gray-400 mt-6">Cancelá cuando quieras. Sin compromiso.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

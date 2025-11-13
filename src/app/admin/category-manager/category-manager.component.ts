@@ -17,6 +17,7 @@ export class CategoryManagerComponent implements OnInit {
   searchTerm: string = '';
   categories: any[] = [];
   loading = false;
+  imageUrl: any;
 
   filteredCategories() {
     if (!this.searchTerm) return this.categories;
@@ -48,7 +49,7 @@ export class CategoryManagerComponent implements OnInit {
     }
   }
 
-  deleteCategory(id: string) {
+  async deleteCategory(id: string) {
     const dialogData: ConfirmDialogData = {
       title: 'Eliminar categoría',
       message: '¿Estás seguro que quieres eliminar esta categoría?',
@@ -61,21 +62,51 @@ export class CategoryManagerComponent implements OnInit {
       data: dialogData,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
-        // Aquí llamás a tu método real para eliminar el producto
-        this.categoryService
-          .deleteCategory(id)
-          .then(() => {
-            this.categories = this.categories.filter((p) => p.id !== id);
-          })
-          .catch((error) => {
-            console.error('Error al eliminar el producto:', error);
-          });
-        this.loadCategories();
+        try {
+          const imageResult = await this.categoryService.getImageUrl(id);
+          this.imageUrl = imageResult!.imageUrl;
+
+          await this.categoryService.deleteCategory(id, this.imageUrl);
+
+          this.categories = this.categories.filter((p) => p.id !== id);
+          this.loadCategories();
+        } catch (error) {
+          console.error('Error al eliminar la categoría:', error);
+        }
       }
     });
   }
+
+  // deleteCategory(id: string) {
+  //   const dialogData: ConfirmDialogData = {
+  //     title: 'Eliminar categoría',
+  //     message: '¿Estás seguro que quieres eliminar esta categoría?',
+  //     confirmText: 'Eliminar',
+  //     cancelText: 'Cancelar',
+  //   };
+
+  //   const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+  //     width: '350px',
+  //     data: dialogData,
+  //   });
+
+  //   dialogRef.afterClosed().subscribe((result) => {
+  //     if (result) {
+  //       // Aquí llamás a tu método real para eliminar el producto
+  //       this.categoryService
+  //         .deleteCategory(id)
+  //         .then(() => {
+  //           this.categories = this.categories.filter((p) => p.id !== id);
+  //         })
+  //         .catch((error) => {
+  //           console.error('Error al eliminar el producto:', error);
+  //         });
+  //       this.loadCategories();
+  //     }
+  //   });
+  // }
 
   async openCategoryDialog(category?: Category) {
     const dialogRef = this.dialog.open(CategoryDialogComponent, {

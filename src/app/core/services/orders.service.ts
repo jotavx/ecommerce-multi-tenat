@@ -1,14 +1,9 @@
 import { Injectable } from '@angular/core';
-import {
-  createClient,
-  RealtimeChannel,
-  SupabaseClient,
-} from '@supabase/supabase-js';
+import { RealtimeChannel, SupabaseClient } from '@supabase/supabase-js';
 import { SupabaseService } from './supabase.service';
 import { AuthService } from './auth.service';
 import { SnackBarService } from './snackbar.service';
 import { BehaviorSubject } from 'rxjs';
-import { NgPlural } from '@angular/common';
 
 interface Order {
   id: string;
@@ -32,7 +27,7 @@ export class OrdersService {
     this.supabase = this.supabaseService.getClient();
   }
 
-  // Suscribirse a cambios en pedidos del usuario
+  // Suscribirse a cambios en pedidos del usuario METODO CON REALTIME
   suscribirseACambiosDePedidos(
     userId: string,
     callback: (pedidoActualizado: any) => void
@@ -162,10 +157,12 @@ export class OrdersService {
     });
   }
 
+  //REALTIME
   listenToNewOrders(businessId: string | null) {
     const supabase = this.supabaseService.getClient();
 
-    console.log('[👂 Escuchando nuevas órdenes para businessId]', businessId);
+    //Debug
+    // console.log('[👂 Escuchando nuevas órdenes para businessId]', businessId);
 
     this.realtimeChannel = supabase
       .channel('orders-insert-channel')
@@ -187,6 +184,7 @@ export class OrdersService {
           if (newOrder.business_id === businessId) {
             console.log('[✅ Orden válida para este negocio]', newOrder);
             this.newOrderSubject.next(newOrder);
+            this.showNotification(newOrder);
             this.playNotificationSound();
           } else {
             console.warn(
@@ -197,7 +195,8 @@ export class OrdersService {
         }
       )
       .subscribe((status) => {
-        console.log('[📡 Estado suscripción realtime]', status);
+        //Debug
+        // console.log('[📡 Estado suscripción realtime]', status);
       });
   }
 
@@ -206,6 +205,10 @@ export class OrdersService {
     audio
       .play()
       .catch((err) => console.error('Error al reproducir el sonido:', err));
+  }
+
+  showNotification(order: any) {
+    this.snackBarService.notificationAdmin('🍔 ¡Nuevo Pedido!', 'Cerrar');
   }
 
   async limpiarComprobantesAntiguos() {

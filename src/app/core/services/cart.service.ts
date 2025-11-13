@@ -145,14 +145,13 @@ export class CartService {
     }
   }
 
-  // En este método se inserta la orden primero sin realizar el select, y luego mediante el código de seguimiento se busca el pedido recién insertado y se obtiene su id para luego insertar los ítems del pedido y vincularlo a la orden. (De esta forma solucionamos el problema de RLS que no permite hacer un select al insertar una orden desde un usuario anónimo, sin exponer las ordenes a cualquier usuario).
-
   async checkoutGuest(cliente: {
     nombre: string;
     telefono: string;
     direccion: string;
     businessId: string;
-    comprobanteUrl: string;
+    metodoPago: string | null;
+    formaEntrega: string | null;
     ubicacionLink?: string;
   }) {
     const cartItems = this.cartItems$.value;
@@ -186,8 +185,9 @@ export class CartService {
       telefono: cliente.telefono,
       direccion: cliente.direccion,
       ubicacion_link: cliente.ubicacionLink,
-      comprobante_pago: cliente.comprobanteUrl,
       business_id: cliente.businessId,
+      metodo_pago: cliente.metodoPago,
+      forma_entrega: cliente.formaEntrega,
     });
 
     if (orderError) {
@@ -239,14 +239,33 @@ export class CartService {
       // });
     }
 
+    // Obtener nombre del negocio
+    const { data: name, error: nameError } = await this.supabase
+      .from('business')
+      .select('nombre_negocio')
+      .eq('id', cliente.businessId)
+      .limit(1)
+      .single();
+
+    if (nameError || !name) {
+      alert('No se pudo recuperar el nombre del negocio');
+      return;
+    }
+
+    const businessName: string = name.nombre_negocio;
+
     // 5. Guardar los códigos de seguimiento de localStorage en un array
     // y agregar el nuevo código generado
-    const codigosGuardados: { codigo: string; fechaCreacion: string }[] =
-      JSON.parse(localStorage.getItem('codigos_seguimiento') || '[]');
+    const codigosGuardados: {
+      codigo: string;
+      fechaCreacion: string;
+      nombreNegocio: string;
+    }[] = JSON.parse(localStorage.getItem('codigos_seguimiento') || '[]');
 
     codigosGuardados.push({
       codigo,
       fechaCreacion: new Date().toISOString(),
+      nombreNegocio: businessName,
     });
 
     localStorage.setItem(
@@ -261,6 +280,7 @@ export class CartService {
       JSON.stringify({
         codigo,
         fechaCreacion: new Date().toISOString(),
+        nombreNegocio: businessName,
       })
     );
 
@@ -270,9 +290,10 @@ export class CartService {
 *Nombre:* ${cliente.nombre}\n
 *Teléfono:* ${cliente.telefono}\n
 *Dirección:* ${cliente.direccion}\n
-*Ubicación:* ${cliente.ubicacionLink || 'Sin ubicación'}\n
 *Total:* $${total}\n
-*Comprobante:* Subido \n
+*Metodo de pago*: ${cliente.metodoPago}\n
+*Forma de entrega:* ${cliente.formaEntrega}\n
+*Ubicación:* ${cliente.ubicacionLink || 'Sin ubicación'}\n
 *Código de seguimiento:* ${codigo}\n
 _Espero la confirmación del pedido._`;
 
@@ -295,7 +316,160 @@ _Espero la confirmación del pedido._`;
     )}`;
     window.open(urlWhatsApp, '_blank');
 
-    // 8. Limpiar carrito y redirigir
-    await this.clearCart(cliente.businessId, '/dashboard-user');
+    // 8. Limpiar carrito y redirigir (SI NO HAY BRAND REDIRIGE AL HOME)
+    // await this.clearCart(cliente.businessId, '/dashboard-user');
   }
 }
+
+//Checkout con carga de comprobante (checkout-form-component)
+//   async checkoutGuest(cliente: {
+//     nombre: string;
+//     telefono: string;
+//     direccion: string;
+//     businessId: string;
+//     comprobanteUrl: string;
+//     ubicacionLink?: string;
+//   }) {
+//     const cartItems = this.cartItems$.value;
+//     if (cartItems.length === 0) return;
+
+//     // Verificar stock
+//     for (const item of cartItems) {
+//       const { data: product, error } = await this.supabase
+//         .from('products')
+//         .select('*')
+//         .eq('id', item.product_id)
+//         .single();
+
+//       if (error || !product || product.stock < item.quantity) {
+//         alert(`No hay suficiente stock para el producto ${product?.name}`);
+//         return;
+//       }
+//     }
+
+//     // Generar código
+//     const codigo =
+//       'P-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+//     // Calcular total
+//     const total = cartItems.reduce((sum, i) => sum + (i.total_price ?? 0), 0);
+
+//     // 1. Insertar el pedido SIN select
+//     const { error: orderError } = await this.supabase.from('orders').insert({
+//       codigo_seguimiento: codigo,
+//       total,
+//       nombre: cliente.nombre,
+//       telefono: cliente.telefono,
+//       direccion: cliente.direccion,
+//       ubicacion_link: cliente.ubicacionLink,
+//       comprobante_pago: cliente.comprobanteUrl,
+//       business_id: cliente.businessId,
+//     });
+
+//     if (orderError) {
+//       console.error(orderError, cliente.businessId);
+//       alert('Error al crear el pedido');
+//       return;
+//     }
+
+//     // 2. Buscar el pedido recién insertado por código (que es único)
+//     const { data: order, error: fetchError } = await this.supabase
+//       .from('orders')
+//       .select('id') // solo necesitás el ID
+//       .eq('codigo_seguimiento', codigo)
+//       .order('created_at', { ascending: false })
+//       .limit(1)
+//       .single(); // <- usás single porque esperás 1 resultado
+
+//     if (fetchError || !order) {
+//       alert('No se pudo recuperar el pedido recién creado');
+//       return;
+//     }
+
+//     // 4. Agregar ítems y actualizar stock
+//     for (const item of cartItems) {
+//       const { error: itemError } = await this.supabase
+//         .from('order_items')
+//         .insert({
+//           order_id: order.id,
+//           product_id: item.product_id,
+//           quantity: item.quantity,
+//           price: item.total_price,
+//           variant_ids: item.selectedVariants?.map((v) => v.id) || [],
+//           option_ids: item.selectedOptions?.map((o) => o.id) || [],
+//           selected_variants: item.selectedVariants || [],
+//           selected_options: item.selectedOptions || [],
+//           observation: item.observation,
+//           business_id: cliente.businessId,
+//         });
+
+//       if (itemError) {
+//         alert('Error al registrar ítems del pedido');
+//         return;
+//       }
+
+//       //Función para decrementar stock (todavía no creada en supabase)
+//       // await this.supabase.rpc('decrement_product_stock', {
+//       //   product_id_input: item.product_id,
+//       //   quantity_input: item.quantity,
+//       // });
+//     }
+
+//     // 5. Guardar los códigos de seguimiento de localStorage en un array
+//     // y agregar el nuevo código generado
+//     const codigosGuardados: { codigo: string; fechaCreacion: string }[] =
+//       JSON.parse(localStorage.getItem('codigos_seguimiento') || '[]');
+
+//     codigosGuardados.push({
+//       codigo,
+//       fechaCreacion: new Date().toISOString(),
+//     });
+
+//     localStorage.setItem(
+//       'codigos_seguimiento',
+//       JSON.stringify(codigosGuardados)
+//     );
+
+//     // Guardar el último generado por separado
+
+//     localStorage.setItem(
+//       'ultimo_codigo',
+//       JSON.stringify({
+//         codigo,
+//         fechaCreacion: new Date().toISOString(),
+//       })
+//     );
+
+//     // 6. Enviar mensaje por WhatsApp con los datos de la orden
+//     const mensaje = `_¡Hola! Te paso el resumen de mi pedido:_ \n
+// *Pedido ID:* ${order.id.toUpperCase().slice(0, 8)}\n
+// *Nombre:* ${cliente.nombre}\n
+// *Teléfono:* ${cliente.telefono}\n
+// *Dirección:* ${cliente.direccion}\n
+// *Ubicación:* ${cliente.ubicacionLink || 'Sin ubicación'}\n
+// *Total:* $${total}\n
+// *Comprobante:* Subido \n
+// *Código de seguimiento:* ${codigo}\n
+// _Espero la confirmación del pedido._`;
+
+//     // 7. Obtener número del admin
+//     const { data: businessInfo, error: businnesError } = await this.supabase
+//       .from('business')
+//       .select('telefono')
+//       .eq('id', cliente.businessId)
+//       .limit(1)
+//       .single();
+
+//     if (businnesError || !businessInfo) {
+//       alert('Error al obtener número del admin');
+//       return;
+//     }
+
+//     const numeroDestino = businessInfo.telefono;
+//     const urlWhatsApp = `https://wa.me/${numeroDestino}?text=${encodeURIComponent(
+//       mensaje
+//     )}`;
+//     window.open(urlWhatsApp, '_blank');
+
+//     // 8. Limpiar carrito y redirigir
+//     await this.clearCart(cliente.businessId, '/dashboard-user');
+//   }

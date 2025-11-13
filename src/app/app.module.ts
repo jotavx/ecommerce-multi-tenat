@@ -16,6 +16,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { HttpClientModule } from '@angular/common/http';
 
 import { RegisterComponent } from './public/register/register.component';
 import { LoginComponent } from './public/login/login.component';
@@ -58,6 +59,10 @@ import { EditBusinessDialogComponent } from './shared/components/dialogs/edit-bu
 import { CheckoutComponent } from './public/checkout/checkout.component';
 import { MetodosPagoComponent } from './admin/metodos-pago/metodos-pago.component';
 import { FormasEntregaComponent } from './admin/formas-entrega/formas-entrega.component';
+import { PaymentComponent } from './public/payment/payment.component';
+import { ChoiceOptionsDialogComponent } from './shared/components/dialogs/choice-options-dialog/choice-options-dialog.component';
+import { CountdownComponent } from './admin/countdown/countdown.component';
+import { DeleteAccountComponent } from './admin/delete-account/delete-account.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -100,6 +105,10 @@ import { FormasEntregaComponent } from './admin/formas-entrega/formas-entrega.co
     CheckoutComponent,
     MetodosPagoComponent,
     FormasEntregaComponent,
+    PaymentComponent,
+    ChoiceOptionsDialogComponent,
+    CountdownComponent,
+    DeleteAccountComponent,
   ],
   imports: [
     BrowserModule,
@@ -117,6 +126,7 @@ import { FormasEntregaComponent } from './admin/formas-entrega/formas-entrega.co
     MatSlideToggleModule,
     MatCheckboxModule,
     MatExpansionModule,
+    HttpClientModule,
   ],
   providers: [provideAnimationsAsync()],
   bootstrap: [AppComponent],

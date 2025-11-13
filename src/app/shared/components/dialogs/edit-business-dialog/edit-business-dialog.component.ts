@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class EditBusinessDialogComponent {
   form: FormGroup;
+  submitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -22,8 +23,9 @@ export class EditBusinessDialogComponent {
       brand: [data.brand, Validators.required],
       //new
 
-      telefono: [data.telefono],
-      email: [data.email],
+      telefono: [data.telefono, Validators.required],
+      email: [data.email, Validators.required],
+      direccion: [data.direccion],
       //Agregar ubicación del negocio!!!
       descripcion: [data.descripcion],
       logo_url: [data.logo_url],
@@ -33,6 +35,7 @@ export class EditBusinessDialogComponent {
   }
 
   onSave() {
+    this.submitted = true;
     if (this.form.valid) {
       this.dialogRef.close(this.form.value);
     }

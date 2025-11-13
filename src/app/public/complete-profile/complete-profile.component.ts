@@ -160,8 +160,9 @@ export class CompleteProfileComponent {
 
   private async handleAdminCreation(user: any): Promise<string> {
     await this.validateBrand();
-    await this.createBusinessProfile(user);
     await this.createAdminRecord(user.id);
+    await this.createBusinessProfile(user);
+
     // await this.createDefaultCategory(user.id);
     this.authService.resetAdminStatus();
     return `Por favor, inicia sesión con tu cuenta de administrador. Tu negocio ha sido creado exitosamente.`;

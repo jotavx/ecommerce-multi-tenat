@@ -50,7 +50,7 @@ export class ProductService {
         (updateData.categories?.id ? updateData.categories.id : null),
     };
 
-    const businessId = await this.getCurrentBusinessId();
+    const businessId = await this.getCurrentBusinessId(); //⬅⬅⬅⬅⬅⬅⬅⬅ MÉTODO CON GET USER
 
     // Verificación de permisos
     const { error: verifyError } = await this.supabase
@@ -85,13 +85,56 @@ export class ProductService {
     return data[0];
   }
 
-  async deleteProduct(id: string) {
+  async getImageUrl(id: string) {
+    const { data, error } = await this.supabase
+      .from('products')
+      .select('image_url')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      console.error(
+        'Error al obtener la imagen de la categoría',
+        error.message
+      );
+      return null;
+    }
+
+    return {
+      imageUrl: data.image_url,
+    };
+  }
+
+  // Nuevo método para eliminar el producto junto con la imagen si es que la hay.
+  async deleteProduct(id: string, imageUrl?: string): Promise<void> {
+    // 1️⃣ Si hay imagen asociada, eliminarla primero
+    if (imageUrl) {
+      try {
+        await this.deleteProductImage(id, imageUrl);
+      } catch (error) {
+        console.error('No se pudo eliminar la imagen asociada:', error);
+      }
+    }
+
+    // 2️⃣ Luego eliminar el producto de la base de datos
     const { error } = await this.supabase
       .from('products')
       .delete()
       .eq('id', id);
-    if (error) throw error;
+
+    if (error) {
+      console.error('Error al eliminar el producto:', error.message);
+      throw error;
+    }
   }
+
+  // async deleteProduct(id: string) {
+  //   const { error } = await this.supabase
+  //     .from('products')
+  //     .delete()
+  //     .eq('id', id);
+  //   if (error) throw error;
+  // }
 
   async getProductById(id: string) {
     const { data, error } = await this.supabase
@@ -110,7 +153,7 @@ export class ProductService {
   async getCurrentBusinessId(): Promise<string> {
     const {
       data: { user },
-    } = await this.supabase.auth.getUser();
+    } = await this.supabase.auth.getUser(); //⬅⬅⬅⬅⬅⬅⬅⬅ MÉTODO CON GET USER
 
     if (!user) {
       throw new Error('Usuario no autenticado');
@@ -130,7 +173,7 @@ export class ProductService {
   }
 
   async getProductsByBusinessForAdmin() {
-    const businessId = await this.getCurrentBusinessId();
+    const businessId = await this.getCurrentBusinessId(); //⬅⬅⬅⬅⬅⬅⬅⬅ MÉTODO CON GET USER
 
     const { data, error } = await this.supabase
       .from('products')
@@ -161,5 +204,54 @@ export class ProductService {
 
     if (error) throw error;
     return data;
+  }
+
+  async uploadProductImage(file: File): Promise<string> {
+    const businessId = await this.getCurrentBusinessId(); //⬅⬅⬅⬅⬅⬅⬅⬅ MÉTODO CON GET USER
+    const filePath = `${businessId}/products/${Date.now()}-${file.name}`;
+
+    const { error } = await this.supabase.storage
+      .from('product-images')
+      .upload(filePath, file);
+
+    if (error) throw error;
+
+    const { data: publicUrl } = this.supabase.storage
+      .from('product-images')
+      .getPublicUrl(filePath);
+
+    return publicUrl.publicUrl;
+  }
+
+  async deleteProductImage(
+    productId: string | undefined,
+    imageUrl: string | undefined
+  ): Promise<void> {
+    if (!imageUrl || !productId) return;
+
+    const bucketName = 'product-images';
+    const baseUrl = `https://vqxhtwteqmtgybqyqojt.supabase.co/storage/v1/object/public/${bucketName}/`;
+    const filePath = imageUrl.replace(baseUrl, '');
+
+    // 1. Borrar del bucket
+    const { error: deleteError } = await this.supabase.storage
+      .from(bucketName)
+      .remove([filePath]);
+
+    if (deleteError) {
+      console.error('Error al eliminar imagen:', deleteError.message);
+      throw deleteError;
+    }
+
+    // 2. Limpiar campo image_url del producto
+    const { error: updateError } = await this.supabase
+      .from('products')
+      .update({ image_url: '' })
+      .eq('id', productId);
+
+    if (updateError) {
+      console.error('Error al limpiar campo image_url:', updateError.message);
+      throw updateError;
+    }
   }
 }

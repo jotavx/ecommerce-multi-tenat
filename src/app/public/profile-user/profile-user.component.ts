@@ -76,7 +76,7 @@ export class ProfileUserComponent implements OnInit {
 
   editarPerfilUsuario() {
     const dialogRef = this.dialog.open(EditProfileDialogComponent, {
-      width: '400px',
+      width: '600px',
       data: { ...this.user },
     });
 
@@ -97,7 +97,7 @@ export class ProfileUserComponent implements OnInit {
 
   editarNegocioUsuario() {
     const dialogRef = this.dialog.open(EditBusinessDialogComponent, {
-      width: '400px',
+      width: '600px',
       data: { ...this.business },
     });
 

@@ -84,7 +84,7 @@ export const profileGuard: CanActivateFn = async (): Promise<
       const brand = data?.brand;
 
       if (brand) {
-        router.navigate([`tienda/${brand}`]);
+        router.navigate([`tienda/${brand}/orders-manager`]);
       }
     }
   }

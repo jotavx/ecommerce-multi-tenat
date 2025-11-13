@@ -5,6 +5,7 @@ import { Product } from '../../core/models/products.model';
 import { CartService } from '../../core/services/cart.service';
 import { VariantsProducts } from '../../core/services/variants-products.service';
 import { BusinessService } from '../../core/services/business.service';
+import { ConfigService } from '../../core/services/config.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -31,7 +32,8 @@ export class ProductDetailComponent implements OnInit {
     private productService: ProductService,
     private cartService: CartService,
     private businessService: BusinessService,
-    private variantsService: VariantsProducts
+    private variantsService: VariantsProducts,
+    public configService: ConfigService
   ) {}
 
   async ngOnInit() {

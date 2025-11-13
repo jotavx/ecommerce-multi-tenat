@@ -13,11 +13,13 @@ import { BusinessService } from './core/services/business.service';
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
-  title = 'ecommerce-supabase';
+  title = 'Tienda virtual';
   order = '';
+
   isUserAdmin = false;
   configCargada = false;
-  brand: string = '';
+
+  brand: string | null = null;
   businessId: string | null = null;
 
   show: boolean = true;
@@ -42,33 +44,61 @@ export class AppComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      //NEW
+      // localStorage.clear();
+      this.themeService.initializeTheme();
       this.checkCurrentRoute();
-      //
-      await this.checkAdminStatus();
 
+      // Cargar siempre el brand y businessId (público o admin)
       this.brand = await this.obtenerBrand();
-
-      if (!this.brand) {
-        throw new Error('No se pudo obtener el brand');
-      }
+      if (!this.brand) throw new Error('No se pudo obtener el brand');
 
       this.businessId = await this.businessService.getBusinessId(this.brand);
+      if (!this.businessId) throw new Error('No se pudo obtener el businessId');
 
-      if (!this.businessId) {
-        throw new Error('No se pudo obtener el businessId');
+      // Estado del negocio: SIEMPRE, esté logueado o no
+      await this.obtenerEstadoNegocio(this.businessId);
+
+      // Ahora recién vemos si hay sesión (flujo admin)
+      const session = await this.authService.getSession();
+      if (session) {
+        await this.checkAdminStatus();
+        await this.ordersService.startOrderListener(this.businessId);
       }
-
-      await Promise.all([
-        this.ordersService.startOrderListener(this.businessId),
-        this.obtenerEstadoNegocio(this.businessId),
-      ]);
-
-      this.themeService.initializeTheme();
     } catch (error) {
       console.error('Error en ngOnInit:', error);
     }
   }
+
+  // ngOnInit(): void {
+  //   this.themeService.initializeTheme();
+  //   this.checkCurrentRoute();
+
+  //   this.authService.getUser().subscribe(async (user) => {
+  //     if (user) {
+  //       // 🔥 si ya tenés brand y businessId cargados, no vuelvas a pedirlos
+  //       if (!this.brand) {
+  //         this.brand = await this.obtenerBrand();
+  //       }
+  //       if (!this.businessId) {
+  //         this.businessId = await this.businessService.getBusinessId(
+  //           this.brand
+  //         );
+  //       }
+
+  //       if (this.businessId) {
+  //         await this.obtenerEstadoNegocio(this.businessId);
+  //       }
+
+  //       await this.checkAdminStatus();
+  //       await this.ordersService.startOrderListener(this.businessId);
+  //     } else {
+  //       // Usuario deslogueado → limpiar estado
+  //       this.isUserAdmin = false;
+  //       this.brand = null;
+  //       this.businessId = null;
+  //     }
+  //   });
+  // }
 
   async obtenerBrand(): Promise<string> {
     // Primero intenta obtenerlo de la ruta raíz

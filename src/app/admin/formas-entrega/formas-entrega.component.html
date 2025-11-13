@@ -2,38 +2,24 @@
 <div class="p-6 max-w-3xl mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-2xl">
   <div class="mb-8">
     <h2 class="text-3xl font-bold mb-2 text-gray-800 dark:text-white">Configura tus formas de entrega</h2>
-    <p class="text-gray-600 dark:text-gray-300">Agrega los métodos para entregarle los productos al cliente.</p>
+    <p class="text-gray-600 dark:text-gray-300">Agrega los métodos para entregarle el producto a tus clientes.</p>
   </div>
 
-  <div class="mt-8 p-5 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
+  <div *ngFor="let metodo of formasEntrega.metodos" class="mt-8 p-5 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
     <div class="flex items-center justify-between">
       <div>
-        <p class="text-lg font-medium text-gray-800 dark:text-white">Retiro en Local</p>
+        <p class="text-lg font-medium text-gray-800 dark:text-white">{{ metodo.label }}</p>
         <p class="text-sm text-gray-600 dark:text-gray-300">
-          {{ formasEntrega.metodos['retiro'] ? 'Activado' : 'Desactivado' }}
+          {{ metodo.active ? 'Activado' : 'Desactivado' }}
         </p>
       </div>
-      <mat-slide-toggle [checked]="formasEntrega.metodos['retiro']" (change)="toggleMetodo('retiro')" color="warn">
+      <mat-slide-toggle [checked]="metodo.active" (change)="toggleMetodo(metodo.name)" color="warn">
         <span class="text-sm font-medium text-gray-800 dark:text-gray-100">
-          {{ formasEntrega.metodos['retiro'] ? 'Desactivar' : 'Activar' }}
+          {{ metodo.active ? 'Desactivar' : 'Activar' }}
         </span>
       </mat-slide-toggle>
     </div>
   </div>
 
-  <div class="mt-8 p-5 bg-white dark:bg-gray-700 rounded-xl shadow-sm">
-    <div class="flex items-center justify-between">
-      <div>
-        <p class="text-lg font-medium text-gray-800 dark:text-white">Envío al Comprador</p>
-        <p class="text-sm text-gray-600 dark:text-gray-300">
-          {{ formasEntrega.metodos['envio'] ? 'Activado' : 'Desactivado' }}
-        </p>
-      </div>
-      <mat-slide-toggle [checked]="formasEntrega.metodos['envio']" (change)="toggleMetodo('envio')" color="warn">
-        <span class="text-sm font-medium text-gray-800 dark:text-gray-100">
-          {{ formasEntrega.metodos['envio'] ? 'Desactivar' : 'Activar' }}
-        </span>
-      </mat-slide-toggle>
-    </div>
-  </div>
+
 </div>
